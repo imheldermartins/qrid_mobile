@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, ScrollView } from "react-native";
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Olá Helder!</Text>
+      <Text style={styles.text}>Hello World!</Text>
     </View>
   );
 }
@@ -18,6 +18,6 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "600",
     fontSize: 46,
-    color: "#fff",
+    color: "#00f",
   },
 });
