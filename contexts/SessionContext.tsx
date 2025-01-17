@@ -39,7 +39,7 @@ const SessionProvider: SessionProviderProps = ({ children }) => {
     );
 };
 
-const useSession = () => {
+const useAuth = () => {
     const context = useContext(SessionContext);
 
     if (!context) {
@@ -49,4 +49,4 @@ const useSession = () => {
     return context;
 }
 
-export { SessionProvider, useSession };
+export { SessionProvider, useAuth };

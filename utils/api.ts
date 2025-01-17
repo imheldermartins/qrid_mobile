@@ -1,9 +1,8 @@
 import axios from "axios";
-
-const baseURL = process.env.API_DEV || "http://192.168.1.7:5000";
+import { API_DEV } from "@env";
 
 export const api = axios.create({
-  baseURL,
+  baseURL: API_DEV,
   headers: {
     "Content-Type": "application/json",
   },

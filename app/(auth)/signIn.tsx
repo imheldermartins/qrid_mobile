@@ -1,35 +1,40 @@
-// import { api } from "@/utils/api";
 import { useRef } from "react";
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
+import { Text, View, TextInput } from "react-native";
 import { Input } from '@/components/Input';
 import { useForm } from "react-hook-form";
 import { Link, router } from "expo-router";
 import { Button } from "@/components/Button";
+import { api } from "@/utils/api";
+import { UserData } from "@/types/user";
+import { useAuth } from "@/contexts/SessionContext";
 
-// async function sendMessage(message: string) {
-//   const response = await api.post("/api", { message });
+async function signIn(email: string, password: string): Promise<{ data: UserData; token: string }> {
+    const {
+        data: { data },
+        headers: { authorization: token }
+    } = await api.get(`/user/auth?email=${email}&password=${password}`);
 
-//   return response;
-// }
+    return { token, data };
+}
 
 export default function SignIn() {
     const { control, handleSubmit, formState: { errors } } = useForm();
+    const { login } = useAuth();
 
     const passwordRef = useRef<TextInput>(null);
 
-    // const handleSendMessage = async () => {
-    //   if (!value) return;
-
-    //   await sendMessage(value).then(({ data }) => {
-    //     setMessage(data.message);
-    //   });
-    // };
-
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         if (passwordRef.current) {
             passwordRef.current.blur();
         }
-        console.log('submit:', data);
+
+        const { email, password } = data.user;
+
+        const { data: user, token } = await signIn(email, password);
+
+        if (login(token, user)) {
+            router.navigate("/(app)/home");
+        }
     }
 
     return (

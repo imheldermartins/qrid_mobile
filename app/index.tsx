@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    // backgroundColor: '#0f172a',
     gap: 10
   },
   authorDescription: {
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#22c55e',
+    backgroundColor: '#3b82f6',
     color: '#fff',
     borderRadius: 5,
     fontSize: 20,

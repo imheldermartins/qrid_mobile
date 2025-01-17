@@ -31,7 +31,7 @@ export const Input = forwardRef<TextInput, Props>(({
                         value={field.value || value}
                         onChangeText={field.onChange}
                         placeholder={placeholder || "Digite algo..."}
-                        className={clsx("w-full outline-none px-4 py-3 rounded-lg text-slate-950 border border-zinc-600 dark:border-zinc-400 focus:border-green-500 !placeholder:text-zinc-400",
+                        className={clsx("w-full outline-none px-4 py-3 rounded-lg text-slate-950 border border-zinc-600 dark:border-zinc-400 focus:border-blue-500 !placeholder:text-zinc-400",
                             className,
                             {
                                 "!border-red-500 text-red-500": error.length > 0

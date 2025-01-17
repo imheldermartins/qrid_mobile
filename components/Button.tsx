@@ -9,7 +9,7 @@ export const Button = ({ children, onPress, className, ...props }: ButtonProps) 
     return (
         <TouchableOpacity
             onPress={onPress}
-            className={clsx("bg-green-500 text-white py-2 px-4 rounded-lg capitalize", className)}
+            className={clsx("bg-blue-500 text-white py-3 px-4 rounded-lg capitalize", className)}
             {...props}
         >
             {children}
