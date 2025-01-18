@@ -1,50 +1,68 @@
 import { useRef } from "react";
-import { Link, router } from "expo-router";
 import { Text, View, TextInput } from "react-native";
 import { Input } from '@/components/Input';
 import { useForm } from "react-hook-form";
+import { Link, router } from "expo-router";
 import { Button } from "@/components/Button";
+import { api } from "@/utils/api";
+import { UserData } from "@/types/user";
+import { useAuth } from "@/contexts/AuthContext";
 
-export default function SignUp() {
+async function signIn(email: string, password: string): Promise<{
+    data: UserData & { error?: string };
+    token: string;
+}> {
+    const {
+        data,
+        headers: { authorization: token },
+    } = await api.get(`/user/auth?email=${email}&password=${password}`);
+
+    return { token, data };
+}
+
+export default function SignIn() {
     const { control, handleSubmit, formState: { errors } } = useForm();
+    const { login } = useAuth();
 
     const passwordRef = useRef<TextInput>(null);
-    const confirmPasswordRef = useRef<TextInput>(null);
 
-    const onSubmit = (data: any) => {
-        if (!data) return;
-
+    const onSubmit = async (formData: any) => {
         if (passwordRef.current) {
             passwordRef.current.blur();
         }
-        console.log('submit:', data);
 
-        router.navigate('/(auth)/signIn');
+        try {
+
+            const { email, password } = formData.user;
+
+            const { data, token } = await signIn(email, password);
+
+            if (!login(token, data)) {
+                throw new Error(data.error);
+                return;
+            }
+
+            router.navigate("/(auth)");
+        } catch (error) {
+            console.log('>> ', error);
+        }
     }
 
     return (
         <View className="w-full flex flex-1 h-screen justify-center items-center">
             <View className="w-4/5">
                 <Text className="text-3xl mb-12 font-semibold text-slate-950">
-                    Faça seu Cadastro
+                    Faça seu login
                 </Text>
-                <Input
-                    name="user.name"
-                    control={control}
-                    placeholder="Nome de Usuário"
-                    onSubmitEditing={() => passwordRef.current?.focus()}
-                    returnKeyType="next"
-                />
                 <Input
                     name="user.email"
                     control={control}
-                    className="mt-3"
                     placeholder="E-mail"
                     onSubmitEditing={() => passwordRef.current?.focus()}
                     returnKeyType="next"
                     // @ts-ignore
                     error={errors.user?.email?.message}
-                    required="E-mail é obrigatório."
+                    required="E-mail é obrigatório"
                     typeField="email"
                 />
                 <Input
@@ -55,17 +73,7 @@ export default function SignUp() {
                     className="mt-3"
                     // @ts-ignore
                     error={errors.user?.password?.message}
-                    required="Senha é obrigatória."
-                />
-                <Input
-                    ref={confirmPasswordRef}
-                    name="user.confirmPassword"
-                    control={control}
-                    placeholder="Confirme a Senha"
-                    className="mt-3"
-                    // @ts-ignore
-                    error={errors.user?.confirmPassword?.message}
-                    required="Confirmar Senha é obrigatória."
+                    required="Senha é obrigatória"
                 />
 
                 <Button
@@ -73,15 +81,15 @@ export default function SignUp() {
                     onPress={handleSubmit(onSubmit)}
                 >
                     <Text className="text-white text-2xl font-semibold text-center">
-                        Cadastrar
+                        Entrar
                     </Text>
                 </Button>
 
                 <View className="w-full border-t border-zinc-400 my-5" />
 
-                <Link href="/signIn">
+                <Link href="/signUp">
                     <Text className="text-zinc-500 text-xl text-center">
-                        Já tem uma conta? <Text className="underline">Entrar.</Text>
+                        Não tem uma conta ainda? <Text className="underline">Crie uma.</Text>
                     </Text>
                 </Link>
             </View>

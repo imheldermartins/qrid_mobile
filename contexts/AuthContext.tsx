@@ -1,22 +1,27 @@
+import {
+    createContext,
+    useContext,
+    useState
+} from "react";
+
 import { UserData } from "@/types/user";
 import { setToken } from "@/utils/api";
-import { createContext, useContext, useState } from "react";
-import { USER_DATA } from '../constants/USER';
+import { USER_DATA } from '@/constants/USER';
 
-type SessionContextType = {
+type AuthContextType = {
     user: UserData;
     setUser: (user: UserData) => void;
     login: (tkn: string, userData: UserData) => boolean;
     logout: () => void;
 };
 
-const SessionContext = createContext<SessionContextType | null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-type SessionProviderProps = (
+type AuthProviderProps = (
     { children }: { children: React.ReactNode }
 ) => JSX.Element;
 
-const SessionProvider: SessionProviderProps = ({ children }) => {
+const AuthProvider: AuthProviderProps = ({ children }) => {
     const [user, setUser] = useState<UserData>(USER_DATA);
 
     const login = (tkn: string, userData: UserData): boolean => {
@@ -33,20 +38,20 @@ const SessionProvider: SessionProviderProps = ({ children }) => {
     };
 
     return (
-        <SessionContext.Provider value={{ user, setUser, login, logout }}>
+        <AuthContext.Provider value={{ user, setUser, login, logout }}>
             {children}
-        </SessionContext.Provider>
+        </AuthContext.Provider>
     );
 };
 
 const useAuth = () => {
-    const context = useContext(SessionContext);
+    const context = useContext(AuthContext);
 
     if (!context) {
-        throw new Error("useSession must be used within a SessionProvider");
+        throw new Error("useAuth must be used within a AuthProvider");
     }
 
     return context;
 }
 
-export { SessionProvider, useAuth };
+export { AuthProvider, useAuth };

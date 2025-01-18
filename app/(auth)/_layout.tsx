@@ -4,7 +4,6 @@ import { StatusBar } from 'expo-status-bar';
 export default function RootLayout() {
     return (
         <Stack
-            initialRouteName="signIn"
             screenLayout={({ children }) => (
                 <>
                     {children}
@@ -12,8 +11,7 @@ export default function RootLayout() {
                 </>
             )}
         >
-            <Stack.Screen name="signIn" options={{ headerShown: false }} />
-            <Stack.Screen name="signUp" options={{ headerShown: false }} />
+            <Stack.Screen name="index" options={{ headerShown: false }} />
             {/* <Stack.Screen name="+not-found" /> */}
         </Stack>
     )

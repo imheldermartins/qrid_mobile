@@ -2,14 +2,13 @@ import { Link, Stack } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-export default function HomeScreen() {
+export default function StartScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
       <View style={styles.container}>
         <Text style={styles.authorDescription}>Criado por <Text style={{ fontWeight: 'bold' }}>Helder Martins</Text></Text>
         <Text style={styles.mainTitle}>Aplicativo de Gerenciamento de Finanças</Text>
-        <Link href="/(auth)/signIn" style={styles.redirect}>
+        <Link href="/signIn" style={styles.redirect}>
           <Text>Fazer Login</Text>
         </Link>
       </View>

@@ -1,8 +1,8 @@
 import axios from "axios";
-import { API_DEV } from "@env";
+import { API_DEV, API_PROD } from "@env";
 
 export const api = axios.create({
-  baseURL: API_DEV,
+  baseURL: API_PROD || API_DEV,
   headers: {
     "Content-Type": "application/json",
   },
