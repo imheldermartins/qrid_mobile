@@ -1,12 +1,16 @@
 import { useRef } from "react";
 import { Text, View, TextInput } from "react-native";
-import { Input } from '@/components/Input';
+import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { Link, router } from "expo-router";
 import { Button } from "@/components/Button";
 import { api } from "@/utils/api";
 import { UserData } from "@/types/user";
 import { useAuth } from "@/contexts/AuthContext";
+import RHFControlReturn from "@/utils/RHFControlReturn";
+import React from "react";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import { Layout } from "@/components/Layout";
 
 async function signIn(email: string, password: string): Promise<{
     data: UserData & { error?: string };
@@ -20,79 +24,95 @@ async function signIn(email: string, password: string): Promise<{
     return { token, data };
 }
 
-export default function SignIn() {
-    const { control, handleSubmit, formState: { errors } } = useForm();
-    const { login } = useAuth();
+interface SignInFormData {
+    email: string;
+    password: string;
+}
 
+export default function SignIn() {
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignInFormData>();
+
+    const { login } = useAuth();
     const passwordRef = useRef<TextInput>(null);
 
-    const onSubmit = async (formData: any) => {
+    const { show } = useSnackbar();
+
+    const onSubmit = async (formData: SignInFormData) => {
         if (passwordRef.current) {
             passwordRef.current.blur();
         }
 
         try {
-
-            const { email, password } = formData.user;
-
+            const { email, password } = formData;
             const { data, token } = await signIn(email, password);
 
             if (!login(token, data)) {
                 throw new Error(data.error);
-                return;
             }
 
             router.navigate("/(auth)");
         } catch (error) {
-            console.log('>> ', error);
+            console.log(">> ", error);
         }
-    }
+    };
 
     return (
-        <View className="w-full flex flex-1 h-screen justify-center items-center">
-            <View className="w-4/5">
-                <Text className="text-3xl mb-12 font-semibold text-slate-950">
-                    Faça seu login
-                </Text>
-                <Input
-                    name="user.email"
-                    control={control}
-                    placeholder="E-mail"
-                    onSubmitEditing={() => passwordRef.current?.focus()}
-                    returnKeyType="next"
-                    // @ts-ignore
-                    error={errors.user?.email?.message}
-                    required="E-mail é obrigatório"
-                    typeField="email"
-                />
-                <Input
-                    ref={passwordRef}
-                    name="user.password"
-                    control={control}
-                    placeholder="Senha"
-                    className="mt-3"
-                    // @ts-ignore
-                    error={errors.user?.password?.message}
-                    required="Senha é obrigatória"
-                />
-
-                <Button
-                    className="mt-6"
-                    onPress={handleSubmit(onSubmit)}
-                >
-                    <Text className="text-white text-2xl font-semibold text-center">
-                        Entrar
+        <Layout>
+            <View className="w-full flex flex-1 h-screen justify-center items-center">
+                <View className="w-4/5">
+                    <Text className="text-3xl mb-12 font-semibold text-slate-950">
+                        Faça seu login
                     </Text>
-                </Button>
+                    <Input
+                        control={RHFControlReturn(control)}
+                        name="email"
+                        placeholder="E-mail"
+                        onSubmitEditing={() => passwordRef.current?.focus()}
+                        returnKeyType="next"
+                        error={errors.email?.message}
+                        required="E-mail é obrigatório"
+                        typeField="email"
+                    />
+                    <Input
+                        ref={passwordRef}
+                        control={RHFControlReturn(control)}
+                        name="password"
+                        placeholder="Senha"
+                        className="mt-3"
+                        error={errors.password?.message}
+                        required="Senha é obrigatória"
+                        typeField="password"
+                    />
 
-                <View className="w-full border-t border-zinc-400 my-5" />
+                    <Button className="mt-6" onPress={handleSubmit(onSubmit)}>
+                        <Text className="text-white text-2xl font-semibold text-center">
+                            Entrar
+                        </Text>
+                    </Button>
 
-                <Link href="/signUp">
-                    <Text className="text-zinc-500 text-xl text-center">
-                        Não tem uma conta ainda? <Text className="underline">Crie uma.</Text>
-                    </Text>
-                </Link>
+                    <Button className="mt-1" onPress={() => {
+                        show({
+                            message: "Testando Snackbar"
+                        })
+                    }}>
+                        <Text className="text-white text-2xl font-semibold text-center">
+                            Snackbar
+                        </Text>
+                    </Button>
+
+                    <View className="w-full border-t border-zinc-400 my-5" />
+
+                    <Link href="/signUp">
+                        <Text className="text-zinc-500 text-xl text-center">
+                            Não tem uma conta ainda? <Text className="underline">Crie uma.</Text>
+                        </Text>
+                    </Link>
+                </View>
             </View>
-        </View>
+        </Layout>
     );
 }

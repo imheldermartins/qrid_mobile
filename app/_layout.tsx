@@ -7,13 +7,13 @@ import {
   Inter_700Bold,
   Inter_800ExtraBold
 } from "@expo-google-fonts/inter";
-import { Stack, Slot } from 'expo-router';
+import { Slot } from 'expo-router';
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 
 import "@/styles/global.css";
 import { StatusBar } from "expo-status-bar";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { Provider } from "@/contexts/Provider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,9 +39,9 @@ export default function RootLayout() {
 
   return (
     <>
-      <AuthProvider>
+      <Provider>
         <Slot />
-      </AuthProvider>
+      </Provider>
 
       <StatusBar style="auto" />
     </>
