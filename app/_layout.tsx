@@ -14,6 +14,7 @@ import "react-native-reanimated";
 import "@/styles/global.css";
 import { StatusBar } from "expo-status-bar";
 import { Provider } from "@/contexts/Provider";
+import { ProtectedLayout } from "@/components/Layout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -40,10 +41,12 @@ export default function RootLayout() {
   return (
     <>
       <Provider>
-        <Slot />
+        <ProtectedLayout>
+          <Slot />
+        </ProtectedLayout>
       </Provider>
 
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </>
   )
 }

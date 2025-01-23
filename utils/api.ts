@@ -1,13 +1,16 @@
 import axios from "axios";
-import { API_DEV, API_PROD } from "@env";
+import { baseURL } from "@/constants/baseURL";
+import { save } from "./secureStore";
 
 export const api = axios.create({
-  baseURL: API_PROD || API_DEV,
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 export const setToken = (token: string) => {
+  save("token", token);
+
   api.defaults.headers.Authorization = `Bearer ${token}`;
 };

@@ -19,7 +19,7 @@ export default function SignUp() {
         }
         console.log('submit:', data);
 
-        router.navigate('/signIn');
+        router.navigate('/sign-in');
     }
 
     return (
@@ -79,7 +79,7 @@ export default function SignUp() {
 
                 <View className="w-full border-t border-zinc-400 my-5" />
 
-                <Link href="/signIn">
+                <Link href="/sign-in">
                     <Text className="text-zinc-500 text-xl text-center">
                         Já tem uma conta? <Text className="underline">Entrar.</Text>
                     </Text>
