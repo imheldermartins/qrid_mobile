@@ -11,7 +11,7 @@ async function getUser() {
     return response.data;
 }
 
-export default function App() {
+export default function HomeScreen() {
     const { user, setUser, logout } = useAuth();
 
     useEffect(() => {

@@ -51,11 +51,14 @@ export default function SignIn() {
             const { email, password } = formData;
             const { data, token } = await signIn(email, password);
 
-            if (!login(token, data)) throw new Error(JSON.stringify(data));
+            if (!login(token, data)) {
+                console.log("Erro ao fazer login");
+                throw new Error(JSON.stringify(data));
+            }
 
             router.replace("/");
-        } catch ({ message }: any) {
-            const { error } = JSON.parse(String(message));
+        } catch (e: any) {
+            const { error, status } = JSON.parse(String(e.message));
             // console.log(`(status ${status}) ${error}`);
             show({
                 message: error,

@@ -1,6 +1,4 @@
-import { API_DEV, API_PROD } from "@env";
-
 export const baseURL =
-    API_PROD
-    || API_DEV
-    || "https://192.168.3:5000";
+    process.env.EXPO_PUBLIC_API_PROD // This is the production URL
+    || process.env.EXPO_PUBLIC_API_DEV // This is the development URL
+    || "https://192.168.1.2:5000";
