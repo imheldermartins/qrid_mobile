@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { Link, router } from "expo-router";
 import { Text, View, TextInput } from "react-native";
-import { Input } from '@/components/Input';
+import { Input } from '@/components/ui/Input';
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/Button";
 
 export default function SignUp() {
     const { control, handleSubmit, formState: { errors } } = useForm();

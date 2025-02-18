@@ -1,15 +1,15 @@
 import { useRef } from "react";
 import { Text, View, TextInput } from "react-native";
-import { Input } from "@/components/Input";
+import { Input } from "@/components/ui/Input";
 import { useForm } from "react-hook-form";
 import { Link, router } from "expo-router";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/Button";
 import { api } from "@/utils/api";
 import { UserData } from "@/types/user";
 import { useAuth } from "@/contexts/AuthContext";
 import RHFControlReturn from "@/utils/RHFControlReturn";
 import React from "react";
-import { useSnackbar } from "@/contexts/SnackbarContext";
+import { useSnackbar } from "@/contexts/ui/SnackbarContext";
 // import { Feather } from "@expo/vector-icons";
 import { Loading } from "@/components/Loading";
 
