@@ -71,7 +71,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
                         >
                             {icon[route.name as keyof typeof icon]({
                                 size: 24,
-                                color: isFocused ? colors.blue[500] : colors.dark[700],
+                                color: isFocused ? colors.green[500] : colors.dark[700],
                             })}
                         </PlatformPressable>
                     );
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     quickAction: {
         position: "absolute",
         bottom: 25, // Makes it overlap slightly above the tab bar
-        backgroundColor: colors.blue[500],
+        backgroundColor: colors.green[500],
         borderRadius: 50,
         width: 70,
         height: 70,

@@ -78,7 +78,7 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
                         {...customInputType[typeField]}
                         {...textInputProps}
                         className={clsx(
-                            "w-full outline-none px-4 py-3 rounded-lg text-dark-900 border border-dark-500 focus:border-blue-400",
+                            "w-full outline-none px-4 py-3 rounded-lg text-dark-900 border border-dark-500 focus:border-green-400",
                             textInputProps.className,
                             error?.length && "!border-red-500 text-red-500"
                         )}

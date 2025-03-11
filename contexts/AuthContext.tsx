@@ -10,10 +10,12 @@ import { setToken } from "@/utils/api";
 import { USER_DATA } from '@/constants/USER';
 import { getValueFor } from "@/utils/secureStore";
 
+import API_RESPONSES from "@/types/API_RESPONSES";
+
 type AuthContextType = {
     user: UserData;
     setUser: (user: UserData) => void;
-    login: (tkn: string, userData: UserData) => boolean;
+    login: (data: API_RESPONSES.JWTResponse) => boolean;
     logout: () => void;
     isLogged: boolean;
     isLoading: boolean;
@@ -30,12 +32,11 @@ const AuthProvider: AuthProviderProps = ({ children }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isLogged, setIsLogged] = useState<boolean>(false);
 
-    const login = (tkn: string, userData: UserData): boolean => {
-        if (!tkn) return false;
+    const login = (data: API_RESPONSES.JWTResponse): boolean => {
+        if (!data.access || !data.refresh) return false;
         setIsLoading(true);
-
-        setToken(tkn);
-        setUser(userData);
+        
+        setToken(JSON.stringify(data));
         setIsLogged(true);
         return true;
     };

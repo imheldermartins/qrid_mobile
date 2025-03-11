@@ -5,24 +5,23 @@ import { useForm } from "react-hook-form";
 import { Link, router } from "expo-router";
 import { Button } from "@/components/ui/Button";
 import { api } from "@/utils/api";
-import { UserData } from "@/types/user";
 import { useAuth } from "@/contexts/AuthContext";
 import RHFControlReturn from "@/utils/RHFControlReturn";
 import React from "react";
 import { useSnackbar } from "@/contexts/ui/SnackbarContext";
-// import { Feather } from "@expo/vector-icons";
 import { Loading } from "@/components/Loading";
+import API_RESPONSES from "@/types/API_RESPONSES";
 
-async function signIn(email: string, password: string): Promise<{
-    data: UserData & { error?: string };
-    token: string;
-}> {
-    const {
-        data,
-        headers: { authorization: token },
-    } = await api.get(`/user/auth?email=${email}&password=${password}`);
+async function signIn(
+    email: string, 
+    password: string
+): Promise<API_RESPONSES.JWTResponse> {
+    const { data } = await api.post(`login/`, {
+        email,
+        password,
+    });
 
-    return { token, data };
+    return data;
 }
 
 interface SignInFormData {
@@ -49,19 +48,18 @@ export default function SignIn() {
 
         try {
             const { email, password } = formData;
-            const { data, token } = await signIn(email, password);
+            const response = await signIn(email, password);
 
-            if (!login(token, data)) {
-                console.log("Erro ao fazer login");
-                throw new Error(JSON.stringify(data));
-            }
-
+            if (!login(response)) throw new Error(JSON.stringify(response));
+            
             router.replace("/");
-        } catch (e: any) {
-            const { error, status } = JSON.parse(String(e.message));
-            // console.log(`(status ${status}) ${error}`);
+        } catch (e) {
+
+            const { message, status, response } = e as API_RESPONSES.RequestError;
+
+            console.log(`(status ${status}) ${message}`);
             show({
-                message: error,
+                message: response?.data?.detail || message,
                 type: "error",
             });
         }
