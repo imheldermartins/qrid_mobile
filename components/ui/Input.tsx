@@ -19,7 +19,7 @@ type Props<T extends FieldValues> = {
     control: Control<T>;
     name: Path<T>;
     error?: string;
-    required?: string;
+    required?: string | boolean;
     typeField?: "text" | "password" | "email";
     value?: PathValue<T, Path<T>>;
 } & Omit<UseControllerProps<T>, "control" | "name">
@@ -30,7 +30,7 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
         control,
         name,
         error = "",
-        required = "Campo é Obrigatório",
+        required = false,
         typeField = "text",
         rules,
         value,
@@ -78,7 +78,7 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
                         {...customInputType[typeField]}
                         {...textInputProps}
                         className={clsx(
-                            "w-full outline-none px-4 py-3 rounded-lg text-dark-900 border border-dark-500 focus:border-green-400",
+                            "w-full outline-none px-4 py-3 rounded-lg text-dark-900 border border-dark-500 focus:border-emerald-400",
                             textInputProps.className,
                             error?.length && "!border-red-500 text-red-500"
                         )}

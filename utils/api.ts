@@ -14,6 +14,8 @@ export const api = axios.create({
 export const setToken = (token: string) => {
   save("token", token); // Save token to secure store as { access and refresh }
 
+  if (!token) return;
+
   const { access } = JSON.parse(token);
 
   api.defaults.headers.Authorization = `Bearer ${access}`;
@@ -25,6 +27,8 @@ const refreshToken = async () => {
     if (!tokenData) throw new Error("Token não encontrado");
 
     const { refresh } = JSON.parse(tokenData);
+
+    console.log("Renovando token...");
 
     const response = await api.post(`login/refresh/`, {
       refresh,
@@ -49,7 +53,8 @@ api.interceptors.response.use(
     if (
       error.response.status === 401 &&
       error.response.data.code === "token_not_valid" &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !originalRequest.url?.includes("login") // not retrying login requests
     ) {
       originalRequest._retry = true;
 

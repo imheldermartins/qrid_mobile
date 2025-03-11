@@ -8,6 +8,7 @@ export type UserData = {
   totalExpense: number;
   totalIncome: number;
   totalTransactions: number;
+  dateJoined: string;
 };
 
 /**

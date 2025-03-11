@@ -31,10 +31,10 @@ export default function HomeScreen() {
                 <HeaderBalance
                     username={user.firstName}
                     balance={user.balance}
-                    businessName={"Barbearia do John Doe"}
+                // businessName={"John Doe's Barbershop"}
                 />
 
-                <Button title='Logout' className='bg-red-500' onPress={logout} />
+                <Button title='Logout' className='bg-red-600' onPress={logout} />
 
                 {/* <View className='bg-light-200 w-full rounded-lg border border-light-300 px-3 py-2'>
                     <View>
@@ -46,7 +46,7 @@ export default function HomeScreen() {
                 </View> */}
 
                 {Array.from({ length: 10 }).map((_, index) => (
-                    <Text key={index} className='px-6 py-3 rounded-lg bg-green-900 w-full min-h-[80px] text-green-200 font-bold text-2xl align-middle'>Hello World - {index + 1}</Text>
+                    <Text key={index} className='px-6 py-3 rounded-lg bg-emerald-900 w-full min-h-[80px] text-emerald-200 font-bold text-2xl align-middle'>Hello World - {index + 1}</Text>
                 ))}
             </View>
         </>
