@@ -8,6 +8,7 @@ type SnackbarType = {
     snackbarState: {
         visible: boolean;
         content?: React.ReactNode;
+        type?: "error" | "success";
     };
     show: ({
         message,
@@ -31,7 +32,13 @@ const SnackbarProvider: SnackbarProviderProps = ({ children }) => {
         content: ""
     });
 
-    const show: SnackbarType["show"] = ({ message, type }) => setSnackbarState(prev => ({ ...prev, content: message, visible: true }));
+    const show: SnackbarType["show"] = ({ message, type }) => setSnackbarState(prev => ({
+        ...prev,
+        content: message,
+        visible: true,
+        type
+    }));
+
     const dismiss = () => setSnackbarState({ visible: false });
 
     return (
