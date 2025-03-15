@@ -50,6 +50,7 @@ export const Typography = ({ variant = 'body1', returnCurrencyFormat = false, cl
 
     return (
         <Text className={clsx(
+            "!text-left",
             getVariantSize(variant),
             className
         )} {...props}

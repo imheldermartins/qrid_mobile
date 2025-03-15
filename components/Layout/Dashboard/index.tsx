@@ -1,6 +1,7 @@
-import { ScrollView, StyleSheet, View } from "react-native"
+import { LogBox, ScrollView, StyleSheet, View } from "react-native"
 // import { LinearGradient, } from 'expo-linear-gradient';
 import { DashboardHeader } from "./Header";
+import { useEffect } from "react";
 // import { colors } from "@/styles/colors";
 
 interface DashboardLayoutProps {
@@ -11,7 +12,7 @@ interface DashboardLayoutProps {
 //     return (
 //         <View className="flex-1">
 //             <LinearGradient
-//                 colors={[colors.light[100], colors.purple[100], colors.blue[200]]}
+//                 colors={[colors.light[100], colors.green[100], colors.blue[200]]}
 //                 start={[0, 0]}
 //                 end={[1, 1]}
 //                 locations={[0.1, 0.5, 0.9]}
@@ -30,6 +31,9 @@ interface DashboardLayoutProps {
 //     )
 // }
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+    useEffect(() => {
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    }, [])
     return (
         <View className="flex-1 bg-light-100">
             <DashboardHeader

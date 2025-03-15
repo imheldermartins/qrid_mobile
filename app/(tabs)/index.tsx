@@ -1,14 +1,14 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { View, Text, FlatList } from 'react-native';
 import { api } from '../../utils/api';
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Fragment, useEffect } from 'react';
 import { HeaderBalance } from '@/components/HeaderBalance';
-import { useBottomSheet } from '@/contexts/ui/BottomSheet';
-import { Feather } from '@expo/vector-icons';
-import { Typography } from '../../components/ui/Typography/index';
 import { jsonFormatter } from '@/utils/jsonFormatter';
-import { DashboardGridView } from '@/components/DashboardGridView';
+import { FinanceSummary } from '@/components/FinanceSummary';
+import { Typography } from '../../components/ui/Typography/index';
+import { Icon } from '../../components/Icon';
+import { colors } from '@/styles/colors';
+import clsx from 'clsx';
 
 async function getUser() {
     const { data } = await api.get('user/');
@@ -16,7 +16,7 @@ async function getUser() {
 }
 
 export default function HomeScreen() {
-    const { user, setUser, logout } = useAuth();
+    const { user, setUser } = useAuth();
 
     useEffect(() => {
         getUser().then((user) => {
@@ -26,6 +26,37 @@ export default function HomeScreen() {
         });
     }, []);
 
+    const latestTransactions = [
+        {
+            description: 'Corte de Cabelo',
+            value: 30,
+            category: {
+                name: 'Serviço',
+                color: 'green',
+                type: 'income'
+            }
+        },
+        {
+            title: 'Barbearia do M.A.',
+            description: 'Corte de Cabelo',
+            value: 60,
+            category: {
+                name: 'Serviço',
+                color: 'green',
+                type: 'income'
+            }
+        },
+        {
+            description: 'Pgto. ref. ao Aluguel do mês de Fevereiro',
+            value: -2300,
+            category: {
+                name: 'Aluguel',
+                color: 'red',
+                type: 'expense'
+            }
+        }
+    ];
+
     return (
         <>
             <View className='flex flex-col gap-3 items-center'>
@@ -34,7 +65,7 @@ export default function HomeScreen() {
                     balance={user.balance}
                 />
 
-                <DashboardGridView />
+                <FinanceSummary />
 
                 {/* <Button title='Logout' className='bg-red-600' onPress={logout} /> */}
 
@@ -47,9 +78,45 @@ export default function HomeScreen() {
                     </View>
                 </View> */}
 
-                {Array.from({ length: 10 }).map((_, index) => (
-                    <Text key={index} className='px-6 py-3 rounded-lg bg-emerald-900 w-full min-h-[80px] text-emerald-200 font-bold text-2xl align-middle'>Hello World - {index + 1}</Text>
-                ))}
+                <View className='w-full bg-light-200 border border-light-300 rounded-lg p-3'>
+                    <Typography variant='h4' className='text-dark-700 mb-4'>
+                        Últimas Transações
+                    </Typography>
+
+                    <View className="flex-1">
+                        {latestTransactions.map((item, index) => (
+                            <Fragment key={index}>
+                                {index > 0 &&
+                                    index < latestTransactions.length && (
+                                        <View className='w-full my-4 border border-light-300' />
+                                    )}
+                                <View className='flex flex-row items-center justify-between gap-3 rounded-lg py-1'>
+                                    <View className={clsx('w-10 h-10 rounded-lg flex items-center justify-center', {
+                                        'bg-green-100': item.category.type === 'income',
+                                        'bg-red-100': item.category.type === 'expense'
+                                    })}>
+                                        {/* @ts-ignore */}
+                                        <Icon name='trending-down' size={24} color={colors[(item.category.color)][500]} />
+                                    </View>
+                                    <View className='flex-1 flex gap-1 items-start'>
+                                        {item.title && <Typography variant="h5" className='text-center text-dark-700'>{item.title}</Typography>}
+                                        <Typography variant="body1" className='font-medium text-center text-dark-700'>{item.description}</Typography>
+                                    </View>
+                                    <View>
+                                        <Typography
+                                            variant='h5'
+                                            currencyType='BRL'
+                                            returnCurrencyFormat
+                                            className={`text-${item.category.type === 'income' ? 'green' : 'red'}-500`}
+                                        >
+                                            {item.value}
+                                        </Typography>
+                                    </View>
+                                </View>
+                            </Fragment>
+                        ))}
+                    </View>
+                </View>
             </View>
         </>
     )

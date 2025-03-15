@@ -1,62 +1,85 @@
 import { colors } from "@/styles/colors";
-import { Image, ImageStyle } from "expo-image";
-import { StyleSheet, StyleProp, View } from "react-native";
+import { Image } from "expo-image";
+import { StyleSheet, View } from "react-native";
+import {
+    Avatar as A,
+    AvatarTextProps
+} from "react-native-paper";
 
-interface AvatarProps {
-    source: string;
-    style?: StyleProp<ImageStyle>;
-    subPic?: Omit<Partial<AvatarProps>, 'sub'>;
-};
+type AvatarProps =
+    AvatarTextProps &
+    {
+        isActive?: boolean;
+        source?: string;
+    };
 
-export const Avatar = ({ source, style, subPic }: AvatarProps) => !subPic ? (
-    <Image
-        style={{
-            ...styles.image,
-            ...(style as ImageStyle)
-        }}
-        source={source}
-        placeholder={{ blurhash }}
-        contentFit="cover"
-        transition={1000}
-    />
-) : (
-    <View className="relative">
-        <Image
-            source={source}
-            style={styles.image}
-            placeholder={{ blurhash }}
-            contentFit="cover"
-            transition={1000}
-        />
-        <Image
-            source={subPic.source}
-            style={styles.subPic}
-            placeholder={{ blurhash }}
-            contentFit="cover"
-            transition={1000}
-        />
-    </View>
-);
+export const Avatar = ({ source, label, size = 24, isActive = false, style }: AvatarProps) => {
+    const labelFormatted =
+        (String(label).length > 2 ?
+            label.split(' ')
+                .slice(0, 2)
+                .map((word) => word[0])
+                .join('') : label);
+
+    return source ? (
+        <View style={{
+            ...(isActive ? styles.avatarContainer : {}),
+            ...style as {}
+        }}>
+            <Image
+                style={{
+                    ...styles.avatar,
+                    height: size,
+                    width: size,
+                }}
+                source={source}
+                transition={1000}
+                placeholder={{ blurhash }}
+            />
+        </View>
+    ) : (
+        <View style={{
+            ...(isActive ? styles.avatarContainer : {}),
+            ...style as {}
+        }}>
+            <A.Text
+                style={styles.avatar}
+                label={labelFormatted}
+                labelStyle={{
+                    fontSize: size / 3,
+                    height: size,
+                    width: size,
+                }}
+                size={size}
+                color={colors.light[100]}
+                theme={{
+                    colors: {
+                        text: colors.light[100],
+                        primary: colors.green[500]
+                    }
+                }}
+
+            />
+        </View>
+
+    );
+}
+
+const styles = StyleSheet.create({
+    avatarContainer: {
+        borderWidth: 2,
+        borderColor: colors.green[400],
+        borderRadius: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    avatar: {
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: colors.light[100],
+    }
+});
 
 const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
-const styles = StyleSheet.create({
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 50,
-        borderColor: colors.green[500],
-        borderWidth: 2
-    },
-    subPic: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
-        position: 'absolute',
-        right: -10,
-        bottom: -10,
-        borderColor: colors.light[100],
-        borderWidth: 3
-    }
-});

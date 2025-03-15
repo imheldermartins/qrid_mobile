@@ -1,6 +1,6 @@
 import React from "react";
 import { PlatformPressable } from "@react-navigation/elements";
-import { StyleSheet, View, TouchableHighlight } from "react-native";
+import { StyleSheet, View, TouchableHighlight, Text } from 'react-native';
 import { useLinkBuilder } from "@react-navigation/native";
 
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
@@ -16,28 +16,37 @@ type TabBarIconProps = {
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     const { buildHref } = useLinkBuilder();
+    const { expand, snapTo } = useBottomSheet();
+
+    const handleQuickTransaction = () => {
+        expand(<QuickActions />)
+        snapTo(3);
+    };
 
     const icon = {
         index: ({ size, color }: TabBarIconProps) => <Feather name="home" size={size} color={color} />,
         search: ({ size, color }: TabBarIconProps) => <Feather name="search" size={size} color={color} />,
         quickAction: ({ size, color }: TabBarIconProps) => <Feather name="plus" size={size} color={color} />,
+        stats: ({ size, color }: TabBarIconProps) => <Feather name="bar-chart-2" size={size} color={color} />,
+        transactions: ({ size, color }: TabBarIconProps) => <Feather name="list" size={size} color={color} />
     };
 
-    const { expand, snapTo } = useBottomSheet();
-
-    const handleQuickTransaction = () => {
-        expand(<QuickActions />)
-        snapTo(2);
-    };
+    const routeNames = state.routes.map(route => route.name);
+    const routes = state.routes.filter(route => route.name !== "profile");
+    const tabs = [...routes];
+    tabs.splice(2, 0, { name: "quickAction", key: "quickAction" });
 
     return (
         <View style={styles.container}>
             <View style={styles.tabbar}>
-                {state.routes.map((route, index) => {
-                    if (route.name === "quickAction") return null; // Skip the button slot
+                {tabs.map((route) => {
+                    if (route.name === "quickAction") {
+                        return <View key={route.name} style={styles.spacer} />
+                    }
 
                     const { options } = descriptors[route.key];
-                    const isFocused = state.index === index;
+                    const isFocused =
+                        state.index === routeNames.findIndex(r => r === route.name);
 
                     const onPress = () => {
                         const event = navigation.emit({
@@ -67,11 +76,11 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
                             testID={options.tabBarButtonTestID}
                             onPress={onPress}
                             onLongPress={onLongPress}
-                            style={styles.tab}
+                            style={[styles.tab]}
                         >
                             {icon[route.name as keyof typeof icon]({
                                 size: 24,
-                                color: isFocused ? colors.emerald[500] : colors.dark[700],
+                                color: isFocused ? colors.green[500] : colors.dark[700],
                             })}
                         </PlatformPressable>
                     );
@@ -110,7 +119,7 @@ const styles = StyleSheet.create({
     quickAction: {
         position: "absolute",
         bottom: 25, // Makes it overlap slightly above the tab bar
-        backgroundColor: colors.emerald[500],
+        backgroundColor: colors.green[500],
         borderRadius: 50,
         width: 70,
         height: 70,
@@ -122,4 +131,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5, // Android shadow
     },
+    spacer: {
+        width: 70
+    }
 });
