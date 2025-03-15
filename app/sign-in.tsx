@@ -13,7 +13,7 @@ import { Loading } from "@/components/Loading";
 import API_RESPONSES from "@/types/API_RESPONSES";
 
 async function signIn(
-    email: string, 
+    email: string,
     password: string
 ): Promise<API_RESPONSES.JWTResponse> {
     const { data } = await api.post(`login/`, {
@@ -51,7 +51,8 @@ export default function SignIn() {
             const response = await signIn(email, password);
 
             if (!login(response)) throw new Error(JSON.stringify(response));
-            
+
+            router.dismissAll();
             router.replace("/");
         } catch (e) {
 

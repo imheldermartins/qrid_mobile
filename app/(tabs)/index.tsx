@@ -8,6 +8,7 @@ import { useBottomSheet } from '@/contexts/ui/BottomSheet';
 import { Feather } from '@expo/vector-icons';
 import { Typography } from '../../components/ui/Typography/index';
 import { jsonFormatter } from '@/utils/jsonFormatter';
+import { DashboardGridView } from '@/components/DashboardGridView';
 
 async function getUser() {
     const { data } = await api.get('user/');
@@ -31,10 +32,11 @@ export default function HomeScreen() {
                 <HeaderBalance
                     username={user.firstName}
                     balance={user.balance}
-                // businessName={"John Doe's Barbershop"}
                 />
 
-                <Button title='Logout' className='bg-red-600' onPress={logout} />
+                <DashboardGridView />
+
+                {/* <Button title='Logout' className='bg-red-600' onPress={logout} /> */}
 
                 {/* <View className='bg-light-200 w-full rounded-lg border border-light-300 px-3 py-2'>
                     <View>

@@ -9,8 +9,8 @@ interface HeaderBalanceProps {
 
 export const HeaderBalance = ({ username, businessName, balance = 0 }: HeaderBalanceProps) => {
     return (
-        <View className='flex flex-col items-center gap-2 mb-6'>
-            <Typography variant='h3' className='text-dark-800 text-2xl font-medium'>Olá, <Typography variant='h3' className='text-emerald-500'>{username}</Typography></Typography>
+        <View className='flex flex-col items-center gap-2 mb-3'>
+            <Typography variant='h5' className='text-dark-800 text-2xl font-medium'>Março de 2025</Typography>
             <Typography
                 variant='h1'
                 returnCurrencyFormat
@@ -19,10 +19,6 @@ export const HeaderBalance = ({ username, businessName, balance = 0 }: HeaderBal
             >
                 {balance}
             </Typography>
-            {businessName && <View className='flex flex-col items-center'>
-                <Text className='text-dark-800 text-xl font-medium'>Saldo atual</Text>
-                <Text className='text-dark-800 text-xl font-medium'>da <Text className='font-bold text-emerald-700'>{businessName}</Text></Text>
-            </View>}
         </View>
     )
 }

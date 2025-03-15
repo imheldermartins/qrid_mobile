@@ -15,7 +15,7 @@ export default function StartScreen() {
                     <Typography variant='button' className='text-center text-emerald-400'>Começar</Typography>
                 </Link>
 
-                <Typography variant='body1' className='text-left mt-6 text-emerald-50'>QRid.app © 2025</Typography>
+                <Typography variant='body1' className='text-left mt-6 text-emerald-50'>QR.id © {new Date().getFullYear()}</Typography>
             </View>
 
             <StatusBar style="light" />
