@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { Typography } from "./Typography";
 
 interface ButtonProps extends TouchableOpacityProps {
     children?: React.ReactNode;
@@ -13,7 +14,7 @@ export const Button = ({ children = <></>, title, onPress, className, ...props }
             className={clsx("bg-green-400 text-light-300 py-3 px-6 rounded-lg capitalize", className)}
             {...props}
         >
-            {!title ? children : <Text className="text-xl tracking-wider font-semibold text-white capitalize">{title}</Text>}
+            {!title ? children : <Typography variant='button' className="text-xl tracking-wider font-semibold text-white capitalize">{title}</Typography>}
         </TouchableOpacity>
     )
 }

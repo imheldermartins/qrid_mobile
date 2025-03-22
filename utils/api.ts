@@ -30,7 +30,7 @@ const refreshToken = async () => {
 
     console.log("Renovando token...");
 
-    const response = await api.post(`login/refresh/`, {
+    const response = await api.post(`user/login/refresh/`, {
       refresh,
     });
 

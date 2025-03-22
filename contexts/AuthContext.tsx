@@ -10,7 +10,7 @@ import { setToken } from "@/utils/api";
 import { USER_DATA } from '@/constants/USER';
 import { getValueFor } from "@/utils/secureStore";
 
-import API_RESPONSES from "@/types/API_RESPONSES";
+import API_RESPONSES from "@/types/responses.api.";
 
 type AuthContextType = {
     user: UserData;
@@ -35,7 +35,7 @@ const AuthProvider: AuthProviderProps = ({ children }) => {
     const login = (data: API_RESPONSES.JWTResponse): boolean => {
         if (!data.access || !data.refresh) return false;
         setIsLoading(true);
-        
+
         setToken(JSON.stringify(data));
         setIsLogged(true);
         return true;

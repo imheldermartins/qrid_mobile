@@ -10,13 +10,13 @@ import RHFControlReturn from "@/utils/RHFControlReturn";
 import React from "react";
 import { useSnackbar } from "@/contexts/ui/SnackbarContext";
 import { Loading } from "@/components/Loading";
-import API_RESPONSES from "@/types/API_RESPONSES";
+import API_RESPONSES from "@/types/responses.api.";
 
 async function signIn(
     email: string,
     password: string
 ): Promise<API_RESPONSES.JWTResponse> {
-    const { data } = await api.post(`login/`, {
+    const { data } = await api.post(`user/login/`, {
         email,
         password,
     });

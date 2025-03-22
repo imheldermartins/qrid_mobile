@@ -2,6 +2,7 @@ import { LogBox, ScrollView, StyleSheet, View } from "react-native"
 // import { LinearGradient, } from 'expo-linear-gradient';
 import { DashboardHeader } from "./Header";
 import { useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 // import { colors } from "@/styles/colors";
 
 interface DashboardLayoutProps {
@@ -31,20 +32,28 @@ interface DashboardLayoutProps {
 //     )
 // }
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+    const {
+        user: {
+            first_name,
+            last_name
+        }
+    } = useAuth();
+
     useEffect(() => {
         LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     }, [])
+
     return (
         <View className="flex-1 bg-light-100">
             <DashboardHeader
                 user={{
-                    name: "Marcelo",
+                    name: `${first_name} ${last_name}`,
                     avatar: userUrl
                 }}
-                bussiness={{
-                    name: "Barbearia do Marcelo Augusto",
-                    logo: busyUrl
-                }}
+            // bussiness={{
+            //     name: "Barbearia do Marcelo Augusto",
+            //     logo: busyUrl
+            // }}
             />
             <ScrollView
                 showsVerticalScrollIndicator={false}

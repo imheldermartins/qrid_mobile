@@ -66,7 +66,7 @@ export const DashboardHeader = ({ user, bussiness }: DashboardHeaderProps) => {
                     )}
                     <View>
                         <Typography variant="h3">
-                            Olá, {user.name}!
+                            Olá {user.name}!
                         </Typography>
                         {hasBusiness && <Typography variant="h6" className="text-green-500">
                             {bussiness?.name}

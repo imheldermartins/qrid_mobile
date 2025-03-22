@@ -1,14 +1,12 @@
 export type UserData = {
-  firstName: string;
-  lastName: string;
   email: string;
-  role: "USER" | "ADMIN" | "user" | "admin";
-  balance: number;
+  first_name: string;
+  last_name: string;
   tags: string[];
-  totalExpense: number;
-  totalIncome: number;
-  totalTransactions: number;
-  dateJoined: string;
+  created_at: string | Date;
+  updated_at: string | Date;
+  is_business: boolean;
+  is_active: boolean;
 };
 
 /**

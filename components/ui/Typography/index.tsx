@@ -38,7 +38,7 @@ const getVariantSize = (variant: TypoVariant) => ({
     "text-base": variant === 'body1',
     "text-sm": variant === 'body2',
     "text-xs": variant === 'caption',
-    "text-base font-bold uppercase": variant === 'button',
+    "text-base font-bold uppercase !text-center": variant === 'button',
     "text-xs uppercase": variant === 'overline'
 })
 

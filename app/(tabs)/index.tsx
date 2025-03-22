@@ -12,8 +12,39 @@ import clsx from 'clsx';
 
 async function getUser() {
     const { data } = await api.get('user/');
-    return jsonFormatter(data);
+    return data;
 }
+
+const latestTransactions = [
+    {
+        description: 'Corte de Cabelo',
+        value: 30,
+        category: {
+            name: 'Serviço',
+            color: 'green',
+            type: 'income'
+        }
+    },
+    {
+        title: 'Barbearia do M.A.',
+        description: 'Corte de Cabelo',
+        value: 60,
+        category: {
+            name: 'Serviço',
+            color: 'green',
+            type: 'income'
+        }
+    },
+    {
+        description: 'Pgto. ref. ao Aluguel do mês de Fevereiro',
+        value: -2300,
+        category: {
+            name: 'Aluguel',
+            color: 'red',
+            type: 'expense'
+        }
+    }
+];
 
 export default function HomeScreen() {
     const { user, setUser } = useAuth();
@@ -26,44 +57,10 @@ export default function HomeScreen() {
         });
     }, []);
 
-    const latestTransactions = [
-        {
-            description: 'Corte de Cabelo',
-            value: 30,
-            category: {
-                name: 'Serviço',
-                color: 'green',
-                type: 'income'
-            }
-        },
-        {
-            title: 'Barbearia do M.A.',
-            description: 'Corte de Cabelo',
-            value: 60,
-            category: {
-                name: 'Serviço',
-                color: 'green',
-                type: 'income'
-            }
-        },
-        {
-            description: 'Pgto. ref. ao Aluguel do mês de Fevereiro',
-            value: -2300,
-            category: {
-                name: 'Aluguel',
-                color: 'red',
-                type: 'expense'
-            }
-        }
-    ];
-
     return (
         <>
             <View className='flex flex-col gap-3 items-center'>
-                <HeaderBalance
-                    username={user.firstName}
-                    balance={user.balance}
-                />
+                <HeaderBalance balance={0} />
 
                 <FinanceSummary />
 

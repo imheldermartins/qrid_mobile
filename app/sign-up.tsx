@@ -8,10 +8,10 @@ import RHFControlReturn from "@/utils/RHFControlReturn";
 import { useSnackbar } from "@/contexts/ui/SnackbarContext";
 import { api } from "@/utils/api";
 import { UserData } from "@/types/user";
-import API_RESPONSES from "@/types/API_RESPONSES";
+import API_RESPONSES from "@/types/responses.api.";
 
 async function signUp(submittedData: SignUpFormData): Promise<UserData> {
-    const { data } = await api.post(`register/`, submittedData);
+    const { data } = await api.post(`user/register/`, submittedData);
 
     return data;
 }
