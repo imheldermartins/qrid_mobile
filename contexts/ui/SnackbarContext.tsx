@@ -41,8 +41,14 @@ const SnackbarProvider: SnackbarProviderProps = ({ children }) => {
 
     const dismiss = () => setSnackbarState({ visible: false });
 
+    const contextvalue = {
+        snackbarState,
+        show,
+        dismiss
+    };
+
     return (
-        <SnackbarContext.Provider value={{ snackbarState, show, dismiss }}>
+        <SnackbarContext.Provider value={contextvalue}>
             {children}
         </SnackbarContext.Provider>
     );

@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
 import { Typography } from '@/components/ui/Typography';
 import clsx from 'clsx';
@@ -6,21 +6,7 @@ import { Icon } from '@/components/Icon';
 import { colors } from '@/styles/colors';
 import { Reducer } from '@/types/reducerDefaultTypes';
 import { api } from '@/utils/api';
-
-type Transaction = {
-    id: number;
-    title: string;
-    description: string;
-    tags: string[];
-    payment_method: string;
-    amount: number;
-    scheduled_date: `${number}-${number}-${number}`;
-    created_at: string | Date;
-    updated_at: string | Date;
-    category: number;
-    wallet_monthly: number;
-    owner: number
-};
+import { Transaction } from '@/types/transactions';
 
 type TransactionReducer = Reducer<
     Transaction[],
@@ -59,15 +45,19 @@ async function getTransactions(): Promise<Transaction[]> {
     return data;
 }
 
+// async function createTransactions(): Promise<Transaction> {
+//     const { data } = await api.post('transactions/create');
+//     return data;
+// }
+
 export default function TransactionsListScreen() {
     const [transactions, dispatch] = useReducer<TransactionReducer>(reducer, []);
 
     const load = (set: Transaction[]) => {
-        console.log(set);
         dispatch({ type: 'SET', payload: { set } });
-    }
+    };
 
-    React.useEffect(() => {
+    useEffect(() => {
         getTransactions()
             .then(load);
     }, []);

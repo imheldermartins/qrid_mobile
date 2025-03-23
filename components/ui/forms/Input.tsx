@@ -9,7 +9,8 @@ import {
     Path,
     PathValue,
 } from "react-hook-form";
-import { Text, TextInput, TextInputProps, View } from "react-native";
+import { TextInput, TextInputProps, View } from "react-native";
+import { Typography } from "../Typography";
 
 /** 
  * Mantém <T extends FieldValues> para que esse Input possa ser usado
@@ -78,13 +79,13 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
                         {...customInputType[typeField]}
                         {...textInputProps}
                         className={clsx(
-                            "w-full outline-none px-4 py-3 rounded-lg text-dark-900 border border-dark-500 focus:border-green-400",
+                            "w-full outline-none px-4 py-3 rounded-lg bg-light-200 text-dark-900 border border-light-300 focus:border-green-400 !placeholder:text-dark-100",
                             textInputProps.className,
                             error?.length && "!border-red-500 text-red-500"
                         )}
                     />
                     {error?.length > 0 && typeof error === 'string' && (
-                        <Text className="text-red-500 pt-0.5 mt-2">{error}</Text>
+                        <Typography variant="body2" className="text-red-500 pt-0.5 mt-2">{error}</Typography>
                     )}
                 </View>
             )}

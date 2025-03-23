@@ -10,14 +10,13 @@ interface ProviderProps {
 export const Provider = ({ children }: ProviderProps) => (
     <>
         <GestureHandlerRootView>
-            <BottomSheetProvider>
-                <SnackbarProvider>
+            <SnackbarProvider>
+                <BottomSheetProvider>
                     <AuthProvider>
                         {children}
                     </AuthProvider>
-                </SnackbarProvider>
-            </BottomSheetProvider>
-
+                </BottomSheetProvider>
+            </SnackbarProvider>
         </GestureHandlerRootView>
     </>
 )

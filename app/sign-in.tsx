@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Text, View, TextInput } from "react-native";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/forms/Input";
 import { useForm } from "react-hook-form";
 import { Link, router } from "expo-router";
 import { Button } from "@/components/ui/Button";

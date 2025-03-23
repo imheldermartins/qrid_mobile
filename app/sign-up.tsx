@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import { Link, router } from "expo-router";
 import { Text, View, TextInput } from "react-native";
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/forms/Input';
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import RHFControlReturn from "@/utils/RHFControlReturn";

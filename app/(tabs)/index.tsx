@@ -50,6 +50,8 @@ export default function HomeScreen() {
     const { user, setUser } = useAuth();
 
     useEffect(() => {
+        if (user.is_active) return;
+
         getUser().then((user) => {
             if (user) {
                 setUser(user);

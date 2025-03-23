@@ -6,10 +6,9 @@ import { View } from 'react-native';
 import clsx from "clsx";
 import { colors } from "@/styles/colors";
 
-interface CustomSnackbarProps extends Props { };
+// interface CustomSnackbarProps extends Props { };
 
 export const CustomSnackbar = () => {
-
     const {
         snackbarState: {
             visible: snackbarVisible,

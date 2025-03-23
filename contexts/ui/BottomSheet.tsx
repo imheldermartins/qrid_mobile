@@ -23,6 +23,7 @@ type BottomSheetContextType = {
 
     /** Dá um snap para o index informado. */
     snapTo: (index: number) => void;
+    setContent: (content: React.ReactNode) => void;
 };
 
 const BottomSheetContext = createContext<BottomSheetContextType | null>(null);
@@ -75,12 +76,17 @@ export function BottomSheetProvider({ children }: BottomSheetProviderProps) {
     // Para fechar o BottomSheet ao clicar no backdrop
     const handleRenderBackdrop = useCallback(RenderBackdrop, []);
 
+    const handleSetContent = useCallback((content: React.ReactNode) => {
+        setContent(content);
+    }, [])
+
     return (
         <BottomSheetContext.Provider
             value={{
                 expand,
                 close,
-                snapTo
+                snapTo,
+                setContent: handleSetContent
             }}
         >
             {children}

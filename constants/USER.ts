@@ -1,13 +1,12 @@
 import { UserData } from "@/types/user";
 
 export const USER_DATA: UserData = {
-  email: "john_doe@adress.domain",
-  firstName: "John",
-  lastName: "Doe",
-  role: "USER",
-  balance: 0,
+  email: "",
+  first_name: "",
+  last_name: "",
   tags: [],
-  totalIncome: 0,
-  totalExpense: 0,
-  totalTransactions: 0,
+  created_at: "",
+  updated_at: "",
+  is_business: false,
+  is_active: false,
 };

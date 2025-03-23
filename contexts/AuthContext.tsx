@@ -28,7 +28,7 @@ type AuthProviderProps = (
 ) => JSX.Element;
 
 const AuthProvider: AuthProviderProps = ({ children }) => {
-    const [user, setUser] = useState<UserData>(USER_DATA);
+    const [user, setUser] = useState<AuthContextType['user']>(USER_DATA);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isLogged, setIsLogged] = useState<boolean>(false);
 
