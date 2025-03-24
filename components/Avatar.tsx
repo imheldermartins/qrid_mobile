@@ -69,13 +69,13 @@ const styles = StyleSheet.create({
     avatarContainer: {
         borderWidth: 2,
         borderColor: colors.green[400],
-        borderRadius: 10,
+        borderRadius: 50,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
     avatar: {
-        borderRadius: 10,
+        borderRadius: 50,
         borderWidth: 2,
         borderColor: colors.light[100],
     }

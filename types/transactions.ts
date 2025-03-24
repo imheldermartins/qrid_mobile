@@ -8,7 +8,15 @@ export type Transaction = {
   scheduled_date: `${number}-${number}-${number}`;
   created_at: string | Date;
   updated_at: string | Date;
-  category: number;
+  category: Category;
   wallet_monthly: number;
   owner: number;
+};
+
+export type Category = {
+  id: number;
+  name: string;
+  type: "income" | "expense" | "transfer";
+  icon: string;
+  color: string; // feat: add colorsPallete to category
 };

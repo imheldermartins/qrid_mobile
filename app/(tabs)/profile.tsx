@@ -11,7 +11,7 @@ export default function ProfileScreen() {
     return (
         <View className="flex-1 flex flex-col justify-end">
             <Typography variant='h1'>
-                Olá, {user?.firstName}
+                Olá, {user?.first_name}
             </Typography>
 
             <Button title='Logout' className='bg-red-600' onPress={logout} />

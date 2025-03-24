@@ -9,6 +9,7 @@ import { Typography } from "../ui/Typography";
 import { Select } from '../ui/forms/Select';
 import clsx from "clsx";
 import { DateTimePicker } from "../ui/forms/DateTimePicker";
+import { Category } from "@/types/transactions";
 
 // import { colors } from "@/styles/colors";
 
@@ -24,7 +25,7 @@ type TransactionFormData = {
 };
 
 interface TransactionFormProps {
-    type: 'income' | 'expense' | 'transfer';
+    type: Category['type'];
 };
 
 export const TransactionForm = ({ type }: TransactionFormProps) => {
@@ -34,10 +35,6 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
         // watch,
         formState: { errors },
     } = useForm<TransactionFormData>();
-
-    console.log('isLoaded.');
-
-    const [paymentMethod, setPaymentMethod] = useState('');
 
     const inputRefs = useRef<{ [key: string]: TextInput | null }>({});
 
@@ -134,9 +131,8 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                 // typeField="currency"
                 />
                 <Select
+                    name="payment_method"
                     control={control}
-                    value={paymentMethod}
-                    onChange={value => setPaymentMethod(value as string)}
                     options={[
                         { label: 'Dinheiro', value: 'CASH' },
                         { label: 'Cartão de Crédito', value: 'CREDIT-CARD' },
@@ -147,13 +143,13 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         { label: 'Outro', value: 'OTHER' },
                     ]}
                     className="mt-4 !py-1"
-                    defaultLabel="Método de Pagamento"
+                    placeholder="Método de Pagamento"
                 />
 
                 <DateTimePicker
-                    mode="date"
                     name="scheduled_date"
                     control={control}
+                    mode="date"
                     className="mt-4 !py-5 text-xl"
                 />
 
