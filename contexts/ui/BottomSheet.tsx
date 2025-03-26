@@ -96,6 +96,8 @@ export function BottomSheetProvider({ children }: BottomSheetProviderProps) {
                 snapPoints={snapPoints}
                 enablePanDownToClose={true}
                 backdropComponent={handleRenderBackdrop}
+                enableContentPanningGesture={false}
+                enableHandlePanningGesture
             // onChange={handleSheetChange}
             >
                 <BottomSheetView style={{ flex: 1 }}>

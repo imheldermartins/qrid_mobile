@@ -118,18 +118,18 @@ const styles = StyleSheet.create({
     },
     quickAction: {
         position: "absolute",
-        bottom: 25, // Makes it overlap slightly above the tab bar
+        bottom: 20,
         backgroundColor: colors.green[500],
         borderRadius: 50,
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         alignItems: "center",
         justifyContent: "center",
-        shadowColor: "#000",
+        shadowColor: colors.green[500],
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
-        elevation: 5, // Android shadow
+        elevation: 10, // Android shadow
     },
     spacer: {
         width: 70

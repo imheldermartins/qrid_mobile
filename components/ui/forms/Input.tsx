@@ -23,6 +23,8 @@ type Props<T extends FieldValues> = {
     required?: string | boolean;
     typeField?: "text" | "password" | "email";
     value?: PathValue<T, Path<T>>;
+    mt?: number;
+    title?: string;
 } & Omit<UseControllerProps<T>, "control" | "name">
     & TextInputProps;
 
@@ -35,6 +37,8 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
         typeField = "text",
         rules,
         value,
+        mt,
+        title,
         // Demais props do TextInput
         ...textInputProps
     }: Props<T>,
@@ -70,7 +74,10 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
             }}
             defaultValue={value} // Depende do seu campo
             render={({ field }) => (
-                <View>
+                <View style={{ marginTop: mt }}>
+                    <Typography variant="body1" className="ml-2 mb-3 text-dark-900 text-xl">
+                        {required && "*"}{title || textInputProps.placeholder}
+                    </Typography>
                     <TextInput
                         ref={ref}
                         value={field.value || value}

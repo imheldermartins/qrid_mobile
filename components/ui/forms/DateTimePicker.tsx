@@ -2,24 +2,30 @@ import DateTimePicker, {
     DatePickerOptions,
     AndroidNativeProps
 } from '@react-native-community/datetimepicker';
-import { useRef, useState } from 'react';
-import { Input } from './Input';
+import { useState } from 'react';
+// import { Input } from './Input';
 import { Control, Controller } from 'react-hook-form';
 import RHFControlReturn from '@/utils/RHFControlReturn';
-import { TextInput } from 'react-native';
-import { Typography } from '../Typography';
+import { TextInput, TextInputProps, View } from 'react-native';
+// import { Typography } from '../Typography';
 import clsx from 'clsx';
+import { Typography } from '../Typography';
 
-interface DateTimePickerProps extends Omit<DatePickerOptions, 'value'> {
+interface DateTimePickerProps
+    extends Omit<DatePickerOptions, 'value'> {
     mode?: AndroidNativeProps['mode'];
 
     // Input props
     name: string;
     control: Control<any>;
     className?: string;
+    title?: string;
+    placeholder?: string;
+    required?: boolean;
+    mt?: number;
 }
 
-const Picker = ({ name, control, className, ...props }: DateTimePickerProps) => {
+const Picker = ({ name, control, className, required, ...props }: DateTimePickerProps) => {
     const [visible, setVisible] = useState<boolean>(false);
 
     // const inputRef = useRef(null);
@@ -32,7 +38,10 @@ const Picker = ({ name, control, className, ...props }: DateTimePickerProps) => 
                 const dateValue = value ? new Date(value) : new Date();
                 const formattedDate = dateValue.toLocaleDateString();
                 return (
-                    <>
+                    <View style={{ marginTop: props.mt }}>
+                        <Typography variant="body1" className="ml-2 mb-3 text-dark-900 text-xl">
+                            {required && "*"}{props.title || props.placeholder}
+                        </Typography>
                         <TextInput
                             // ref={ref}
                             value={formattedDate}
@@ -47,6 +56,7 @@ const Picker = ({ name, control, className, ...props }: DateTimePickerProps) => 
                             )}
                             // editable={false}
                             onTouchStart={() => setVisible(true)}
+                            placeholder='Selecione uma data'
                         />
                         {/* {error?.length > 0 && typeof error === 'string' && (
                             <Typography variant="body2" className="text-red-500 pt-0.5 mt-2">{error}</Typography>
@@ -68,7 +78,7 @@ const Picker = ({ name, control, className, ...props }: DateTimePickerProps) => 
                                 {...props}
                             />
                         )}
-                    </>
+                    </View>
                 )
             }}
         />
