@@ -62,6 +62,7 @@ export default function HomeScreen() {
     return (
         <>
             <View className='flex flex-col gap-3 items-center'>
+
                 <HeaderBalance balance={0} />
 
                 <FinanceSummary />
@@ -78,7 +79,7 @@ export default function HomeScreen() {
                 </View> */}
 
                 <View className='w-full bg-light-200 border border-light-300 rounded-lg p-3'>
-                    <Typography variant='h4' className='text-dark-700 mb-4'>
+                    <Typography variant='h4' className='text-dark-700 font-semibold mb-4'>
                         Últimas Transações
                     </Typography>
 

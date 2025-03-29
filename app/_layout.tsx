@@ -1,11 +1,6 @@
 import { useEffect } from "react";
 import {
   useFonts,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold
 } from "@expo-google-fonts/inter";
 import { Slot } from 'expo-router';
 import * as SplashScreen from "expo-splash-screen";
@@ -21,11 +16,13 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold
+    Inter_Light: require("@assets/fonts/Inter/Inter_Light.ttf"),
+    Inter_Regular: require("@assets/fonts/Inter/Inter_Regular.ttf"),
+    Inter_Medium: require("@assets/fonts/Inter/Inter_Medium.ttf"),
+    Inter_SemiBold: require("@assets/fonts/Inter/Inter_SemiBold.ttf"),
+    Inter_Bold: require("@assets/fonts/Inter/Inter_Bold.ttf"),
+    Inter_ExtraBold: require("@assets/fonts/Inter/Inter_ExtraBold.ttf"),
+    Inter_Black: require("@assets/fonts/Inter/Inter_Black.ttf"),
   });
 
   useEffect(() => {

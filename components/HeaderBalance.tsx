@@ -13,7 +13,7 @@ export const HeaderBalance = ({ balance = 0 }: HeaderBalanceProps) => {
                 variant='h1'
                 returnCurrencyFormat
                 currencyType='BRL'
-                className='text-dark-100'
+                className='!text-dark-100'
             >
                 {balance}
             </Typography>

@@ -4,20 +4,18 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      fontFamily: {
+        inter: [
+          "Inter_Regular",
+          "Inter_Light",
+          "Inter_Medium",
+          "Inter_SemiBold",
+          "Inter_Bold",
+          "Inter_ExtraBold",
+          "Inter_Black",
+        ],
+      },
       colors: {
-        // primary: {
-        //   50: "#fcfcea",
-        //   100: "#f6f8c9",
-        //   200: "#f3f395",
-        //   300: "#eae54d",
-        //   400: "#e4d72b",
-        //   500: "#d4bf1e",
-        //   600: "#b79717",
-        //   700: "#926f16",
-        //   800: "#79581a",
-        //   900: "#68491b",
-        //   950: "#3c270c",
-        // },
         light: {
           100: "#F7F7F7",
           200: "#F0F0F0",

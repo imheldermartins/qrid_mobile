@@ -1,34 +1,13 @@
 import { REGEX_VALIDATORS } from "@/constants/REGEX_VALIDATORS";
 import clsx from "clsx";
 import React, { forwardRef } from "react";
-import {
-    Controller,
-    UseControllerProps,
-    Control,
-    FieldValues,
-    Path,
-    PathValue,
-} from "react-hook-form";
-import { TextInput, TextInputProps, View } from "react-native";
+import { TextInput as InputType, TextInputProps, View } from "react-native";
 import { Typography } from "../Typography";
+import { TextInput } from "../defaults/TextInput";
+import { InputProps } from "../defaults/rhf_input.type";
+import { Controller, FieldValues } from "react-hook-form";
 
-/** 
- * Mantém <T extends FieldValues> para que esse Input possa ser usado
- * em qualquer formulário.
- */
-type Props<T extends FieldValues> = {
-    control: Control<T>;
-    name: Path<T>;
-    error?: string;
-    required?: string | boolean;
-    typeField?: "text" | "password" | "email";
-    value?: PathValue<T, Path<T>>;
-    mt?: number;
-    title?: string;
-} & Omit<UseControllerProps<T>, "control" | "name">
-    & TextInputProps;
-
-export const Input = forwardRef(function Input<T extends FieldValues>(
+export const Input = forwardRef(<T extends FieldValues>(
     {
         control,
         name,
@@ -37,13 +16,11 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
         typeField = "text",
         rules,
         value,
-        mt,
         title,
-        // Demais props do TextInput
         ...textInputProps
-    }: Props<T>,
-    ref: React.Ref<TextInput>
-) {
+    }: InputProps<T>,
+    ref: React.Ref<InputType>
+) => {
     const customInputType = {
         password: {
             secureTextEntry: true,
@@ -74,7 +51,7 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
             }}
             defaultValue={value} // Depende do seu campo
             render={({ field }) => (
-                <View style={{ marginTop: mt }}>
+                <View className="flex-1">
                     <Typography variant="body1" className="ml-2 mb-3 text-dark-900 text-xl">
                         {required && "*"}{title || textInputProps.placeholder}
                     </Typography>

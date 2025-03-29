@@ -8,6 +8,7 @@ interface CurrencyFormatterProps {
     value: number;
     currency?: CurrencyType;
     className?: string;
+    style?: React.CSSProperties;
 };
 
 export const parseCurrency = (currency: CurrencyType) => new Intl.NumberFormat(currency === "BRL" ? "pt-BR" : "en-US", {
@@ -16,10 +17,10 @@ export const parseCurrency = (currency: CurrencyType) => new Intl.NumberFormat(c
     minimumFractionDigits: 2,
 });
 
-export const CurrencyFormatter = ({ value, currency, className }: CurrencyFormatterProps) => {
+export const CurrencyFormatter = ({ value, currency, className, style = {} }: CurrencyFormatterProps) => {
     const formatter = parseCurrency(currency || "BRL");
     return (
-        <Text className={clsx(className)}>
+        <Text className={clsx(className)} style={style as {}}>
             {formatter.format(value)}
         </Text>
     )

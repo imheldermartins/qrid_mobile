@@ -129,7 +129,7 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                                     : 'Movimentação'
                         }</Typography>
                 </Typography>
-                <View className="flex-1 gap-2 px-4">
+                <View className="flex-1 gap-6 px-4">
                     <Input
                         ref={ref => setRef('title', ref!)}
                         name="title"
@@ -151,7 +151,6 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         placeholder="Rec. ref. ao pagamento do mês de janeiro"
                         onSubmitEditing={() => focusNext('amount')}
                         returnKeyType="next"
-                        mt={15}
                     />
                     <Input
                         ref={ref => setRef('amount', ref!)}
@@ -162,14 +161,13 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         placeholder="Ex. R$ 3500,00"
                         // onSubmitEditing={() => focusNext('password')}
                         returnKeyType="next"
-                        mt={15}
                     // error={errors.email?.message}
                     // required="E-mail é obrigatório."
                     // typeField="currency"
                     />
                     <Select
                         name="payment_method"
-                        control={control}
+                        control={RHFControlReturn(control)}
                         options={[
                             { label: 'Dinheiro', value: 'CASH' },
                             { label: 'Cartão de Crédito', value: 'CREDIT-CARD' },
@@ -178,38 +176,37 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                             { label: 'PayPal', value: 'PAYPAL' },
                             { label: 'PIX', value: 'PIX' },
                             { label: 'Outro', value: 'OTHER' },
+                            { label: 'Outro', value: 'OTHER' }
                         ]}
                         className="!py-1"
-                        placeholder="Método de Pagamento"
-                        mt={15}
+                        title="Método de Pagamento"
+                        placeholder="Selecione um método de pagamento"
                     />
 
                     <Select
                         name="category_id"
-                        control={control}
+                        control={RHFControlReturn(control)}
                         options={categoriesOptions}
                         className="!py-1"
                         title="Categoria"
-                        placeholder="Em qual categoria se encaixa?"
-                        mt={15}
+                        placeholder="Serviço, Produto, Aluguel, etc."
                     />
 
                     <Select
                         name="wallet_id"
-                        control={control}
+                        control={RHFControlReturn(control)}
                         options={walletsOptions}
                         className="!py-1"
-                        placeholder="Qual carteira deseja movimentar?"
-                        mt={15}
+                        title="Carteira"
+                        placeholder="Ex. Carteira, Banco XYZ, etc."
                     />
 
                     <DateTimePicker
                         name="scheduled_date"
-                        control={control}
+                        control={RHFControlReturn(control)}
                         mode="date"
                         className="!py-5 text-xl"
                         title="Data"
-                        mt={15}
                     />
 
                     <Button

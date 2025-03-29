@@ -1,3 +1,32 @@
+/* global.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    font-family: 'Inter_Regular', sans-serif; /* Define a fonte regular como base */
+  }
+}
+
+@layer components {
+  .text-light {
+    font-family: 'Inter_Light', sans-serif;
+  }
+  .text-medium {
+    font-family: 'Inter_Medium', sans-serif;
+  }
+  .text-semibold {
+    font-family: 'Inter_SemiBold', sans-serif;
+  }
+  .text-bold {
+    font-family: 'Inter_Bold', sans-serif;
+  }
+  .text-extrabold {
+    font-family: 'Inter_ExtraBold', sans-serif;
+  }
+  .text-black {
+    font-family: 'Inter_Black', sans-serif;
+  }
+}

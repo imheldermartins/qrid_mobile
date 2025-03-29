@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Text, TextProps } from "react-native"
+import { Text, TextProps, StyleSheet } from 'react-native';
 import { CurrencyFormatter, CurrencyType } from './CurrencyFormatter ';
 
 type TypoVariant =
@@ -29,13 +29,12 @@ const reactNodeToString = (node: React.ReactNode): string => {
 };
 
 const getVariantSize = (variant: TypoVariant) => ({
-    "text-4xl font-bold": variant === 'h1',
-    "text-3xl font-bold": variant === 'h2',
-    "text-2xl font-bold": variant === 'h3',
-    "text-xl font-bold": variant === 'h4',
-    "text-lg font-bold": variant === 'h5',
-    "text-base font-bold": variant === 'h6',
-    "text-base": variant === 'body1',
+    "text-4xl": variant === 'h1',
+    "text-3xl": variant === 'h2',
+    "text-2xl": variant === 'h3',
+    "text-xl": variant === 'h4',
+    "text-lg": variant === 'h5',
+    "text-base": ['h6', 'body1'].includes(variant),
     "text-sm": variant === 'body2',
     "text-xs": variant === 'caption',
     "text-base font-bold uppercase !text-center": variant === 'button',
@@ -45,15 +44,71 @@ const getVariantSize = (variant: TypoVariant) => ({
 export const Typography = ({ variant = 'body1', returnCurrencyFormat = false, className, ...props }: TypographyProps) => {
     if (returnCurrencyFormat) {
         const value = parseFloat(reactNodeToString(props.children));
-        return <CurrencyFormatter value={value} currency={props.currencyType} className={clsx(className, getVariantSize(variant))} />
+        return (
+            <CurrencyFormatter
+                value={value}
+                currency={props.currencyType}
+                className={clsx(
+                    "font-inter",
+                    className,
+                    getVariantSize(variant)
+                )}
+                style={StyleSheet.flatten([
+                    typographyStyle[variant]
+                ]) as {}}
+            />
+        )
     }
 
     return (
-        <Text className={clsx(
-            "!text-left",
-            getVariantSize(variant),
-            className
-        )} {...props}
+        <Text
+            className={clsx(
+                "!text-left font-inter",
+                getVariantSize(variant),
+                className
+            )}
+            style={StyleSheet.flatten([
+                typographyStyle[variant],
+                props.style,
+            ])}
+            {...props}
         />
     )
 }
+
+export const typographyStyle = StyleSheet.create({
+    h1: {
+        fontFamily: 'Inter_Bold',
+        color: '#f0f !important',
+    },
+    h2: {
+        fontFamily: 'Inter_Bold',
+    },
+    h3: {
+        fontFamily: 'Inter_Bold',
+    },
+    h4: {
+        fontFamily: 'Inter_Bold',
+    },
+    h5: {
+        fontFamily: 'Inter_Bold',
+    },
+    h6: {
+        fontFamily: 'Inter_Bold',
+    },
+    body1: {
+        fontFamily: 'Inter_Regular',
+    },
+    body2: {
+        fontFamily: 'Inter_Regular',
+    },
+    caption: {
+        fontFamily: 'Inter_Light',
+    },
+    button: {
+        fontFamily: 'Inter_Bold',
+    },
+    overline: {
+        fontFamily: 'Inter_Bold',
+    }
+});
