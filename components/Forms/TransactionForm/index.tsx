@@ -1,19 +1,18 @@
-import { ScrollView, TextInput, View } from "react-native";
-import { Button } from "../ui/Button";
-import { Input } from "../ui/forms/Input";
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Button } from "../../ui/Button";
+import { Input } from "../../ui/forms/Input";
 import RHFControlReturn from "@/utils/RHFControlReturn";
 import API_RESPONSES from "@/types/responses.api.";
 import { useForm } from "react-hook-form";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Typography } from "../ui/Typography";
-import { Select } from '../ui/forms/Select';
+import { Typography } from "../../ui/Typography";
+import { Select } from '../../ui/forms/Select';
 import clsx from "clsx";
-import { DateTimePicker } from "../ui/forms/DateTimePicker";
+import { DateTimePicker } from "../../ui/forms/DateTimePicker";
 import { Category } from "@/types/transactions";
 import { api } from "@/utils/api";
 import { Wallet } from "@/types/wallets";
-
-// import { colors } from "@/styles/colors";
+import { transactionFormStyles } from "./style";
 
 type TransactionFormData = {
     title?: string;
@@ -101,44 +100,46 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
     };
 
     useEffect(() => {
-        getCategories().then(categories =>
-            setCategoriesOptions(selectOptionsParser(categories))
-        )
+        getCategories()
+            .then(categories =>
+                setCategoriesOptions(selectOptionsParser(categories))
+            );
     }, []);
 
     useEffect(() => {
-        getWallets().then(wallets =>
-            setWalletsOptions(selectOptionsParser(wallets))
-        );
+        getWallets()
+            .then(wallets =>
+                setWalletsOptions(selectOptionsParser(wallets))
+            );
     }, []);
 
     return (
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView style={transactionFormStyles.container}>
             <View className="w-full flex pb-6">
-                <Typography
-                    variant='h3'
-                    className='!text-center mt-4 mb-6'
-                >
-                    Criar uma <Typography variant='h3' className={clsx({
-                        'text-green-500': type === 'income',
-                        'text-red-500': type === 'expense',
-                        'text-blue-500': type === 'transfer',
-                    })}>{
+                <Typography variant='h6' f="medium" style={transactionFormStyles.title}>
+                    nova{" "}
+                    <Typography
+                        variant="h6"
+                        style={StyleSheet.flatten([
+                            transactionFormStyles[`${type}Title`]
+                        ])}
+                    >
+                        {
                             type === 'income' ? 'Receita'
                                 : type === 'expense' ? 'Despesa'
                                     : 'Movimentação'
-                        }</Typography>
+                        }
+                    </Typography>
                 </Typography>
-                <View className="flex-1 gap-6 px-4">
+                <View style={transactionFormStyles.formContainer}>
                     <Input
                         ref={ref => setRef('title', ref!)}
                         name="title"
                         control={RHFControlReturn(control)}
                         title="Título"
-                        placeholder="Ex. Salário da Empresa XXX"
+                        placeholder="ex. Salário da Empresa XXX"
                         onSubmitEditing={() => focusNext('description')}
                         returnKeyType="next"
-                        className="!py-5 text-xl"
                     // error={errors.title?.message}
                     // required="Nome é obrigatório."
                     />
@@ -146,9 +147,8 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         ref={ref => setRef('description', ref!)}
                         name="description"
                         control={RHFControlReturn(control)}
-                        className="!py-5 text-xl"
                         title="Descrição"
-                        placeholder="Rec. ref. ao pagamento do mês de janeiro"
+                        placeholder="ex. Rec. ref. ao pagamento do mês de janeiro"
                         onSubmitEditing={() => focusNext('amount')}
                         returnKeyType="next"
                     />
@@ -156,9 +156,8 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         ref={ref => setRef('amount', ref!)}
                         name="amount"
                         control={RHFControlReturn(control)}
-                        className="!py-5 text-xl"
                         title="Valor"
-                        placeholder="Ex. R$ 3500,00"
+                        placeholder="ex. R$ 3500,00"
                         // onSubmitEditing={() => focusNext('password')}
                         returnKeyType="next"
                     // error={errors.email?.message}
@@ -178,7 +177,6 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                             { label: 'Outro', value: 'OTHER' },
                             { label: 'Outro', value: 'OTHER' }
                         ]}
-                        className="!py-1"
                         title="Método de Pagamento"
                         placeholder="Selecione um método de pagamento"
                     />
@@ -187,25 +185,22 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         name="category_id"
                         control={RHFControlReturn(control)}
                         options={categoriesOptions}
-                        className="!py-1"
                         title="Categoria"
-                        placeholder="Serviço, Produto, Aluguel, etc."
+                        placeholder="ex. Serviço, Produto, Aluguel, etc."
                     />
 
                     <Select
                         name="wallet_id"
                         control={RHFControlReturn(control)}
                         options={walletsOptions}
-                        className="!py-1"
                         title="Carteira"
-                        placeholder="Ex. Carteira, Banco XYZ, etc."
+                        placeholder="ex. Carteira, Banco XYZ, etc."
                     />
 
                     <DateTimePicker
                         name="scheduled_date"
                         control={RHFControlReturn(control)}
                         mode="date"
-                        className="!py-5 text-xl"
                         title="Data"
                     />
 

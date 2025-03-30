@@ -9,8 +9,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import RHFControlReturn from "@/utils/RHFControlReturn";
 import React from "react";
 import { useSnackbar } from "@/contexts/ui/SnackbarContext";
-import { Loading } from "@/components/Loading";
 import API_RESPONSES from "@/types/responses.api.";
+import { Typography } from "@/components/ui/Typography";
+import { styles } from "@/styles/screens/signInStyle";
+import { Divider } from "@/components/ui/Divider";
 
 async function signIn(
     email: string,
@@ -67,15 +69,15 @@ export default function SignIn() {
     };
 
     return (
-        <View className="w-full flex flex-1 h-screen justify-center items-center">
-            <View className="w-4/5">
-                <Text className="text-3xl mb-12 font-semibold text-slate-950">
-                    Faça seu login
-                </Text>
+        <View style={styles.screen}>
+            <Typography variant="h5" style={styles.title}>
+                Faça seu login
+            </Typography>
+            <View style={styles.container}>
                 <Input
                     control={RHFControlReturn(control)}
                     name="email"
-                    placeholder="E-mail"
+                    title="E-mail"
                     onSubmitEditing={() => passwordRef.current?.focus()}
                     returnKeyType="next"
                     error={errors.email?.message}
@@ -86,27 +88,22 @@ export default function SignIn() {
                     ref={passwordRef}
                     control={RHFControlReturn(control)}
                     name="password"
-                    placeholder="Senha"
-                    className="mt-3"
+                    title="Senha"
                     error={errors.password?.message}
                     required="Senha é obrigatória"
                     typeField="password"
                 />
 
-                <Button className="mt-6" onPress={handleSubmit(onSubmit)}>
-                    <Text className="text-white text-2xl font-semibold text-center">
-                        {!isLoading ? "Entrar" : (
-                            <Loading type="spinner" />
-                        )}
-                    </Text>
-                </Button>
+                <Button title={!isLoading ? "Entrar" : "Carregando..."} style={styles.button} onPress={handleSubmit(onSubmit)} />
 
-                <View className="w-full border-t border-zinc-400 my-5" />
+                <Divider style={{
+                    marginVertical: 20,
+                }} />
 
                 <Link href="/sign-up">
-                    <Text className="text-zinc-500 text-xl text-center">
-                        Não tem uma conta ainda? <Text className="underline">Crie uma.</Text>
-                    </Text>
+                    <Typography variant="body1" style={styles.linkText}>
+                        Não tem uma conta ainda? <Typography style={styles.link}>Crie uma.</Typography>
+                    </Typography>
                 </Link>
             </View>
         </View>

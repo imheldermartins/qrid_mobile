@@ -1,21 +1,24 @@
 import { colors } from "@/styles/colors";
 import RHFControlReturn from "@/utils/RHFControlReturn";
-import { Picker } from "@react-native-picker/picker"
-import clsx from "clsx";
+import { Picker, PickerProps } from "@react-native-picker/picker"
 import { Controller, FieldValues } from "react-hook-form";
-import { TextInput as InputType, View } from 'react-native';
+import { TextInput as InputType, StyleSheet, View } from 'react-native';
 import { Typography } from "../Typography";
 import { forwardRef } from "react";
 import { InputProps } from "../defaults/rhf_input.type";
+import { fontFamilyStyles } from "../Typography/style";
 
-type SelectProps<T extends FieldValues> = InputProps<T> & {
-    options: {
-        label: string;
-        value: string | number;
-    }[];
-};
+type SelectProps<T extends FieldValues> =
+    InputProps<T> &
+    PickerProps &
+    {
+        options: {
+            label: string;
+            value: string | number;
+        }[];
+    };
 
-export const Select = forwardRef(<T extends FieldValues>(
+export const Select = forwardRef(function Select<T extends FieldValues>(
     {
         control,
         name,
@@ -26,10 +29,12 @@ export const Select = forwardRef(<T extends FieldValues>(
         value,
         title,
         options,
+        mode = 'dropdown',
+        f = 'regular',
         ...textInputProps
     }: SelectProps<T>,
-    ref: React.Ref<InputType>
-) => {
+    ref: React.Ref<Picker<T>>
+) {
     const selectOptions = [
         { label: textInputProps.placeholder || 'Selecione uma opção', value: '' },
         ...options
@@ -42,19 +47,20 @@ export const Select = forwardRef(<T extends FieldValues>(
             render={({ field: { onChange, value } }) => {
                 const isNotSelected = value === '' || value === undefined || value === null;
                 return (
-                    <View className="flex-1">
-                        <Typography variant="body1" className="ml-2 mb-3 text-dark-900 text-xl">
+                    <View style={styles.container}>
+                        <Typography variant="caption" style={styles.label}>
                             {required && "*"}{title || textInputProps.placeholder}
                         </Typography>
-                        <View className={clsx("bg-light-200 border border-light-300 focus:border-green-400 rounded-lg", textInputProps.className)}>
+                        <View style={StyleSheet.flatten([
+                            styles.input,
+                        ])}>
                             <Picker
+                                ref={ref}
                                 selectedValue={value}
                                 onValueChange={(itemValue, _) => {
                                     onChange(itemValue);
                                 }}
-                                style={{
-                                    color: isNotSelected ? colors.dark[100] : colors.dark[900],
-                                }}
+                                mode={mode}
                             >
                                 {selectOptions.map((option, index) => (
                                     <Picker.Item
@@ -62,10 +68,10 @@ export const Select = forwardRef(<T extends FieldValues>(
                                         label={option.label}
                                         value={option.value}
                                         enabled={option.value !== ''}
-                                        style={{
-                                            fontSize: 18,
-                                            color: isNotSelected ? colors.dark[100] : colors.dark[900]
-                                        }}
+                                        style={StyleSheet.flatten([
+                                            { color: isNotSelected ? colors.dark[100] : colors.dark[900] },
+                                        ])}
+                                        fontFamily={'Inter'}
                                     />
                                 ))}
                             </Picker>
@@ -75,4 +81,20 @@ export const Select = forwardRef(<T extends FieldValues>(
             }}
         />
     )
+});
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    label: {
+        marginBottom: 8,
+    },
+    // bg-light-200 border border-light-300 focus:border-green-400 rounded-lg
+    input: {
+        backgroundColor: colors.light[200],
+        borderWidth: 1,
+        borderColor: colors.light[300],
+        borderRadius: 8,
+    },
 });

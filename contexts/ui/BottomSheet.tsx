@@ -1,4 +1,5 @@
 // src/contexts/ui/BottomSheet.tsx
+import { colors } from '@/styles/colors';
 import BottomSheet, {
     BottomSheetView,
     BottomSheetBackdrop,
@@ -12,6 +13,7 @@ import React, {
     useCallback,
     useMemo,
 } from 'react';
+import { StyleSheet } from 'react-native';
 
 type BottomSheetContextType = {
     /** Abre o BottomSheet no último snapPoint configurado,
@@ -97,10 +99,11 @@ export function BottomSheetProvider({ children }: BottomSheetProviderProps) {
                 enablePanDownToClose={true}
                 backdropComponent={handleRenderBackdrop}
                 enableContentPanningGesture={false}
+                handleStyle={styles.handle}
                 enableHandlePanningGesture
             // onChange={handleSheetChange}
             >
-                <BottomSheetView style={{ flex: 1 }}>
+                <BottomSheetView style={styles.container}>
                     {content}
                 </BottomSheetView>
             </BottomSheet>
@@ -117,3 +120,15 @@ export function useBottomSheet() {
     }
     return context;
 }
+
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.light[100],
+    },
+    handle: {
+        backgroundColor: colors.light[100],
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+    },
+});

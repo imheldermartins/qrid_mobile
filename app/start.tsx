@@ -1,4 +1,5 @@
 import { Typography } from '@/components/ui/Typography';
+import { styles } from '@/styles/screens/startStyle';
 import { Link } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
@@ -6,16 +7,37 @@ import { View } from 'react-native';
 export default function StartScreen() {
     return (
         <>
-            <View className='flex-1 justify-center items-center bg-green-400'>
-                <View className='flex w-4/5'>
-                    <Typography variant='h3' className='font-medium text-center text-green-100'>Criado por <Typography variant='h3' className='font-bold text-light-100'>Helder Martins</Typography></Typography>
-                    <Typography variant='h1' className='text-left mt-6 text-light-100'>Aplicativo de Gerenciamento de Finanças</Typography>
+            <View style={styles.screen}>
+                <View style={styles.container}>
+                    <Typography variant='body1' style={styles.authored}>
+                        Criado por{" "}
+                        <Typography f='semiBold' style={styles.author}>
+                            Helder Martins {/* Describes author */}
+                        </Typography>
+                    </Typography>
+                    <Typography
+                        variant='h3'
+                        style={styles.title}
+                    >
+                        Aplicativo de Gerenciamento de Finanças
+                    </Typography>
                 </View>
-                <Link href="/sign-in" className='w-2/3 bg-light-100 p-6 rounded-xl mt-14'>
-                    <Typography variant='button' className='text-center text-green-400'>Começar</Typography>
+
+                <Link href="/sign-in" style={styles.linkContainer}>
+                    <Typography
+                        variant='button'
+                        style={styles.linkText}
+                    >
+                        Começar
+                    </Typography>
                 </Link>
 
-                <Typography variant='body1' className='text-left mt-6 text-green-50'>QR.id © {new Date().getFullYear()}</Typography>
+                <Typography
+                    variant='body1'
+                    style={styles.credits}
+                >
+                    QRID © {new Date().getFullYear()}
+                </Typography>
             </View>
 
             <StatusBar style="light" />

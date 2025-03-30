@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { Text, TextProps, StyleSheet } from 'react-native';
 import { CurrencyFormatter, CurrencyType } from './CurrencyFormatter ';
+import { C, F, S, typographyStyles } from "./style";
 
 type TypoVariant =
     | 'h1'
@@ -15,11 +15,16 @@ type TypoVariant =
     | 'button'
     | 'overline';
 
-interface TypographyProps extends TextProps {
-    variant?: TypoVariant;
-    returnCurrencyFormat?: boolean;
-    currencyType?: CurrencyType;
-};
+type TypographyProps =
+    TextProps &
+    {
+        variant?: TypoVariant;
+        returnCurrencyFormat?: boolean;
+        currencyType?: CurrencyType;
+        s?: S;
+        f?: F;
+        color?: string;
+    };
 
 const reactNodeToString = (node: React.ReactNode): string => {
     if (typeof node === "string" || typeof node === "number") {
@@ -28,87 +33,66 @@ const reactNodeToString = (node: React.ReactNode): string => {
     return ""; // Ou tratar outros casos, se necessário
 };
 
-const getVariantSize = (variant: TypoVariant) => ({
-    "text-4xl": variant === 'h1',
-    "text-3xl": variant === 'h2',
-    "text-2xl": variant === 'h3',
-    "text-xl": variant === 'h4',
-    "text-lg": variant === 'h5',
-    "text-base": ['h6', 'body1'].includes(variant),
-    "text-sm": variant === 'body2',
-    "text-xs": variant === 'caption',
-    "text-base font-bold uppercase !text-center": variant === 'button',
-    "text-xs uppercase": variant === 'overline'
-})
+export const Typography = ({
+    variant = 'body1',
+    returnCurrencyFormat = false,
+    className,
+    color,
+    ...props
+}: TypographyProps) => {
 
-export const Typography = ({ variant = 'body1', returnCurrencyFormat = false, className, ...props }: TypographyProps) => {
+
+    const variants: Record<TypoVariant, [S, F, C?]> = {
+        caption: ['sm', 'light'],
+        body1: ['base', 'regular'],
+        body2: ['lg', 'medium'],
+        button: ['base', 'bold'],
+        overline: ['base', 'medium', 'uppercase'],
+        h6: ['xl', 'bold'],
+        h5: ['2xl', 'bold'],
+        h4: ['3xl', 'bold'],
+        h3: ['4xl', 'bold'],
+        h2: ['5xl', 'bold'],
+        h1: ['6xl', 'extraBold']
+    };
+
+    // const [size, family]: [S, F] =
+    //     (props.f && props.s) ? [props.s, props.f] :
+    //         (!props.f && props.s) ? [props.s, variants[variant][1]] :
+    //             (props.f && !props.s) ? [variants[variant][0], props.f] :
+    //                 variants[variant];
+
+    const [variantSize, variantFamily] = variants[variant];
+    const size = props.s ?? variantSize;
+    const family = props.f ?? variantFamily;
+    const [, , textTransform] = variants[variant];
+
+    const sx = { size, family, case: textTransform };
+
     if (returnCurrencyFormat) {
         const value = parseFloat(reactNodeToString(props.children));
         return (
             <CurrencyFormatter
                 value={value}
                 currency={props.currencyType}
-                className={clsx(
-                    "font-inter",
-                    className,
-                    getVariantSize(variant)
-                )}
                 style={StyleSheet.flatten([
-                    typographyStyle[variant]
+                    props.style,
+                    color ? { color } : {},
+                    typographyStyles(sx),
                 ]) as {}}
             />
         )
     }
 
+
     return (
         <Text
-            className={clsx(
-                "!text-left font-inter",
-                getVariantSize(variant),
-                className
-            )}
-            style={StyleSheet.flatten([
-                typographyStyle[variant],
-                props.style,
-            ])}
             {...props}
+            style={StyleSheet.flatten([
+                props.style,
+                typographyStyles(sx),
+                color ? { color } : {},
+            ])}
         />
     )
 }
-
-export const typographyStyle = StyleSheet.create({
-    h1: {
-        fontFamily: 'Inter_Bold',
-        color: '#f0f !important',
-    },
-    h2: {
-        fontFamily: 'Inter_Bold',
-    },
-    h3: {
-        fontFamily: 'Inter_Bold',
-    },
-    h4: {
-        fontFamily: 'Inter_Bold',
-    },
-    h5: {
-        fontFamily: 'Inter_Bold',
-    },
-    h6: {
-        fontFamily: 'Inter_Bold',
-    },
-    body1: {
-        fontFamily: 'Inter_Regular',
-    },
-    body2: {
-        fontFamily: 'Inter_Regular',
-    },
-    caption: {
-        fontFamily: 'Inter_Light',
-    },
-    button: {
-        fontFamily: 'Inter_Bold',
-    },
-    overline: {
-        fontFamily: 'Inter_Bold',
-    }
-});

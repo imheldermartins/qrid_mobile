@@ -1,12 +1,9 @@
 import { useSnackbar } from "@/contexts/ui/SnackbarContext";
-import { Snackbar, Props } from "react-native-paper"
+import { Snackbar } from "react-native-paper"
 import { Typography } from "./Typography";
-import { Feather } from '@expo/vector-icons';
-import { View } from 'react-native';
-import clsx from "clsx";
+import { StyleSheet, View } from 'react-native';
 import { colors } from "@/styles/colors";
-
-// interface CustomSnackbarProps extends Props { };
+import { Icon } from "../Icon";
 
 export const CustomSnackbar = () => {
     const {
@@ -33,29 +30,54 @@ export const CustomSnackbar = () => {
         <Snackbar
             visible={snackbarVisible}
             onDismiss={dismiss}
-            // action={{
-            //     label: 'Undo',
-            //     onPress: () => {
-            //         // Do something
-            //     },
-            // }}
-            className={clsx("!bg-light-200 border border-light-300 !rounded-xl", {
-                "!bg-red-500": snackbarType === "error",
-                "!bg-green-500": snackbarType === "success"
-            })}
+            style={StyleSheet.flatten([
+                styles.container,
+                snackbarType === "success" ? styles.success : styles.error,
+            ])}
+        // action={{
+        //     label: 'Undo',
+        //     onPress: () => {
+        //         // Do something
+        //     },
+        // }}
         >
-            <View className="flex flex-row items-center">
+            <View style={styles.content}>
                 {snackbarType && (
-                    <Feather
+                    <Icon
                         name={snackBarStyles[snackbarType].icon}
                         size={24}
-                        className="mr-4"
                         color={snackBarStyles[snackbarType].color}
+                        style={styles.icon}
                     />)}
-                <Typography variant="body1" style={{
-                    color: snackbarType === "error" ? colors.red[200] : colors.green[200]
-                }}>{snackbarContent}</Typography>
+                <Typography
+                    variant="caption"
+                    style={StyleSheet.flatten([
+                        snackbarType === "success" ?
+                            styles.labelSuccess :
+                            styles.labelError,
+                    ])}
+                >{snackbarContent}</Typography>
             </View>
         </Snackbar>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.light[200],
+        borderColor: colors.light[300],
+        borderWidth: 1,
+        borderRadius: 16,
+        padding: 8,
+    },
+    success: { backgroundColor: colors.green[200] },
+    error: { backgroundColor: colors.red[200] },
+    content: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    icon: { marginRight: 8 },
+    labelSuccess: { color: colors.green[200] },
+    labelError: { color: colors.red[200] },
+});

@@ -1,13 +1,15 @@
 import { REGEX_VALIDATORS } from "@/constants/REGEX_VALIDATORS";
 import clsx from "clsx";
-import React, { forwardRef } from "react";
-import { TextInput as InputType, TextInputProps, View } from "react-native";
+import React, { forwardRef, useState } from "react";
+import { TextInput as InputType, StyleSheet, TextInputProps, View } from "react-native";
 import { Typography } from "../Typography";
 import { TextInput } from "../defaults/TextInput";
 import { InputProps } from "../defaults/rhf_input.type";
 import { Controller, FieldValues } from "react-hook-form";
+import { colors } from "@/styles/colors";
+import { fontFamilyStyles } from "../Typography/style";
 
-export const Input = forwardRef(<T extends FieldValues>(
+export const Input = forwardRef(function Input<T extends FieldValues>(
     {
         control,
         name,
@@ -17,10 +19,13 @@ export const Input = forwardRef(<T extends FieldValues>(
         rules,
         value,
         title,
+        f = 'regular',
         ...textInputProps
     }: InputProps<T>,
     ref: React.Ref<InputType>
-) => {
+) {
+    const [focused, setFocused] = useState<boolean>(false);
+
     const customInputType = {
         password: {
             secureTextEntry: true,
@@ -49,30 +54,66 @@ export const Input = forwardRef(<T extends FieldValues>(
                 }),
                 ...rules,
             }}
-            defaultValue={value} // Depende do seu campo
+            defaultValue={value}
             render={({ field }) => (
-                <View className="flex-1">
-                    <Typography variant="body1" className="ml-2 mb-3 text-dark-900 text-xl">
+                <View>
+                    <Typography s="sm" f="medium" style={styles.label}>
                         {required && "*"}{title || textInputProps.placeholder}
                     </Typography>
                     <TextInput
+                        {...customInputType[typeField]}
+                        {...textInputProps}
                         ref={ref}
                         value={field.value || value}
                         onChangeText={field.onChange}
-                        // unindo custom configs com as props que vieram no TextInputProps
-                        {...customInputType[typeField]}
-                        {...textInputProps}
-                        className={clsx(
-                            "w-full outline-none px-4 py-3 rounded-lg bg-light-200 text-dark-900 border border-light-300 focus:border-green-400 !placeholder:text-dark-100",
-                            textInputProps.className,
-                            error?.length && "!border-red-500 text-red-500"
-                        )}
+                        style={StyleSheet.flatten([
+                            styles.input,
+                            customInputType[typeField]?.style,
+                            textInputProps.style,
+                            focused ? styles.inputFocused : {},
+                            error?.length ? styles.inputError : {},
+                            fontFamilyStyles[f]
+                        ])}
+                        onBlur={() => {
+                            setFocused(false);
+                            field.onBlur();
+                        }}
+                        onFocus={() => {
+                            setFocused(true);
+                        }}
                     />
                     {error?.length > 0 && typeof error === 'string' && (
-                        <Typography variant="body2" className="text-red-500 pt-0.5 mt-2">{error}</Typography>
+                        <Typography s="sm" style={styles.error}>{error}</Typography>
                     )}
                 </View>
             )}
         />
     );
+});
+
+const styles = StyleSheet.create({
+    label: {
+        color: colors.dark[300],
+        marginBottom: 8,
+    },
+    error: {
+        color: colors.red[500],
+        marginTop: 4,
+    },
+    input: {
+        backgroundColor: colors.light[200],
+        borderColor: colors.light[300],
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 12,
+        color: colors.dark[900],
+    },
+    inputError: {
+        borderColor: colors.red[500],
+        backgroundColor: colors.red[50],
+    },
+    inputFocused: {
+        borderColor: colors.green[500],
+        backgroundColor: colors.green[50],
+    },
 });

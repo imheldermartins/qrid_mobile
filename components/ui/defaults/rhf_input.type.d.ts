@@ -8,6 +8,7 @@ import {
 } from "react-hook-form";
 
 import { TextInput as InputType, TextInputProps, View } from "react-native";
+import { F } from "../Typography/style";
 
 /**
  * Mantém <T extends FieldValues> para que esse Input possa ser usado
@@ -20,8 +21,8 @@ type Props<T extends FieldValues> = {
   required?: string | boolean;
   typeField?: "text" | "password" | "email";
   value?: PathValue<T, Path<T>>;
-  // mt?: number;
   title?: string;
+  f?: F;
 } & Omit<UseControllerProps<T>, "control" | "name"> &
   TextInputProps;
 

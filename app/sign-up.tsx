@@ -9,6 +9,9 @@ import { useSnackbar } from "@/contexts/ui/SnackbarContext";
 import { api } from "@/utils/api";
 import { UserData } from "@/types/user";
 import API_RESPONSES from "@/types/responses.api.";
+import { Typography } from "@/components/ui/Typography";
+import { Divider } from "@/components/ui/Divider";
+import { styles } from "@/styles/screens/signUpStyle";
 
 async function signUp(submittedData: SignUpFormData): Promise<UserData> {
     const { data } = await api.post(`user/register/`, submittedData);
@@ -65,7 +68,9 @@ export default function SignUp() {
                     type: "success",
                 });
 
-                router.navigate('/sign-in');
+                setTimeout(() => {
+                    router.navigate('/sign-in');
+                }, 1000);
             });
         } catch (e) {
 
@@ -80,16 +85,17 @@ export default function SignUp() {
     }
 
     return (
-        <View className="w-full flex flex-1 h-screen justify-center items-center">
-            <View className="w-4/5">
-                <Text className="text-3xl mb-12 font-semibold text-slate-950">
-                    Faça seu Cadastro
-                </Text>
+        <View style={styles.screen}>
+            <Typography variant="h5" style={styles.title}>
+                Faça seu cadastro
+            </Typography>
+            <View style={styles.container}>
                 <Input
                     ref={ref => setRef('first_name', ref!)}
                     name="first_name"
                     control={RHFControlReturn(control)}
-                    placeholder="Nome"
+                    title="Nome"
+                    placeholder="ex. João"
                     onSubmitEditing={() => focusNext('last_name')}
                     returnKeyType="next"
                     error={errors.first_name?.message}
@@ -99,8 +105,8 @@ export default function SignUp() {
                     ref={ref => setRef('last_name', ref!)}
                     name="last_name"
                     control={RHFControlReturn(control)}
-                    className="mt-3"
-                    placeholder="Sobrenome"
+                    title="Sobrenome"
+                    placeholder="ex. da Silva"
                     onSubmitEditing={() => focusNext('email')}
                     returnKeyType="next"
                 />
@@ -108,8 +114,8 @@ export default function SignUp() {
                     ref={ref => setRef('email', ref!)}
                     name="email"
                     control={RHFControlReturn(control)}
-                    className="mt-3"
-                    placeholder="E-mail"
+                    title="E-mail"
+                    placeholder="ex. seu_email@endereço.domínio"
                     onSubmitEditing={() => focusNext('password')}
                     returnKeyType="next"
                     error={errors.email?.message}
@@ -120,9 +126,8 @@ export default function SignUp() {
                     ref={ref => setRef('password', ref!)}
                     name="password"
                     control={RHFControlReturn(control)}
-                    placeholder="Senha"
+                    title="Senha"
                     onSubmitEditing={() => focusNext('confirmPassword')}
-                    className="mt-3"
                     error={errors.password?.message}
                     required="Senha é obrigatória."
                 />
@@ -130,8 +135,7 @@ export default function SignUp() {
                     ref={ref => setRef('confirmPassword', ref!)}
                     name="confirmPassword"
                     control={RHFControlReturn(control)}
-                    placeholder="Confirme a Senha"
-                    className="mt-3"
+                    title="Confirme a Senha"
                     error={errors.confirmPassword?.message}
                     required="Confirmar Senha é obrigatória."
                     rules={{
@@ -141,20 +145,19 @@ export default function SignUp() {
                 />
 
                 <Button
-                    className="mt-6"
+                    title="Cadastrar"
+                    style={styles.button}
                     onPress={handleSubmit(onSubmit)}
                 >
-                    <Text className="text-white text-2xl font-semibold text-center">
-                        Cadastrar
-                    </Text>
+                    Cadastrar
                 </Button>
 
-                <View className="w-full border-t border-zinc-400 my-5" />
+                <Divider style={{ marginVertical: 20 }} />
 
                 <Link href="/sign-in">
-                    <Text className="text-zinc-500 text-xl text-center">
+                    <Typography variant="body1" className="text-zinc-500 text-xl !text-center">
                         Já tem uma conta? <Text className="underline">Entrar.</Text>
-                    </Text>
+                    </Typography>
                 </Link>
             </View>
         </View>

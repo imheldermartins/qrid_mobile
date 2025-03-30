@@ -1,7 +1,8 @@
 import { colors } from "@/styles/colors"
-import { View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { Typography } from "../ui/Typography"
 import { Icon, IconProps } from "../Icon"
+import { statsView } from "./style"
 
 export const StatsView = ({ title, value, type }: any) => {
 
@@ -13,8 +14,13 @@ export const StatsView = ({ title, value, type }: any) => {
     } as Record<string, Partial<IconProps> & { bg: string; icon: string; }>;
 
     return (
-        <View className="flex-1 flex flex-row items-center gap-3 p-4 bg-light-200 border border-light-300 rounded-lg">
-            <View className="p-2 rounded-lg" style={{ backgroundColor: stats[type].bg }}>
+        <View style={statsView.container}>
+            <View
+                style={StyleSheet.flatten([
+                    statsView.icon,
+                    { backgroundColor: stats[type].bg }
+                ])}
+            >
                 <Icon
                     name={stats[type].icon}
                     size={24}
@@ -23,11 +29,12 @@ export const StatsView = ({ title, value, type }: any) => {
                 />
             </View>
             <View>
-                <Typography variant="overline" className="text-dark-100">{title}</Typography>
+                <Typography variant="overline" s="xs">{title}</Typography>
                 <Typography
-                    variant="h4"
+                    variant="body1"
                     returnCurrencyFormat
                     currencyType='BRL'
+                    f="bold"
                 >{value}</Typography>
             </View>
         </View>

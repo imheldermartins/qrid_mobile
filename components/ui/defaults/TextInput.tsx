@@ -1,13 +1,11 @@
 import clsx from 'clsx';
+import { forwardRef } from 'react';
 import { TextInput as Input, TextInputProps } from 'react-native';
 
-interface CustomTextInputProps extends TextInputProps {
-    ref: React.Ref<Input>
-};
-
-export const TextInput = (props: CustomTextInputProps) => (
+export const TextInput = forwardRef<Input, TextInputProps>((props, ref) => (
     <Input
         {...props}
+        ref={ref}
         className={clsx('!font-inter', props.className)}
     />
-)
+))

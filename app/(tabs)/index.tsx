@@ -1,14 +1,14 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { View, Text, FlatList } from 'react-native';
+import { View } from 'react-native';
 import { api } from '../../utils/api';
 import { Fragment, useEffect } from 'react';
 import { HeaderBalance } from '@/components/HeaderBalance';
-import { jsonFormatter } from '@/utils/jsonFormatter';
 import { FinanceSummary } from '@/components/FinanceSummary';
 import { Typography } from '../../components/ui/Typography/index';
 import { Icon } from '../../components/Icon';
 import { colors } from '@/styles/colors';
 import clsx from 'clsx';
+import { styles } from '@/styles/screens/homeStyle';
 
 async function getUser() {
     const { data } = await api.get('user/');
@@ -60,64 +60,50 @@ export default function HomeScreen() {
     }, []);
 
     return (
-        <>
-            <View className='flex flex-col gap-3 items-center'>
+        <View style={styles.screen}>
 
-                <HeaderBalance balance={0} />
+            <HeaderBalance balance={0} />
 
-                <FinanceSummary />
+            <FinanceSummary />
 
-                {/* <Button title='Logout' className='bg-red-600' onPress={logout} /> */}
+            {/* <View className='w-full bg-light-200 border border-light-300 rounded-lg p-3'>
+                <Typography variant='h4' className='text-dark-700 font-semibold mb-4'>
+                    Últimas Transações
+                </Typography>
 
-                {/* <View className='bg-light-200 w-full rounded-lg border border-light-300 px-3 py-2'>
-                    <View>
-                        <Typography variant='h4'>Últimos Lançamentos</Typography>
-                        <View>
-                            <Typography variant='h4'>Últimos Lançamentos</Typography>
-                        </View>
-                    </View>
-                </View> */}
-
-                <View className='w-full bg-light-200 border border-light-300 rounded-lg p-3'>
-                    <Typography variant='h4' className='text-dark-700 font-semibold mb-4'>
-                        Últimas Transações
-                    </Typography>
-
-                    <View className="flex-1">
-                        {latestTransactions.map((item, index) => (
-                            <Fragment key={index}>
-                                {index > 0 &&
-                                    index < latestTransactions.length && (
-                                        <View className='w-full my-4 border border-light-300' />
-                                    )}
-                                <View className='flex flex-row items-center justify-between gap-3 rounded-lg py-1'>
-                                    <View className={clsx('w-10 h-10 rounded-lg flex items-center justify-center', {
-                                        'bg-green-100': item.category.type === 'income',
-                                        'bg-red-100': item.category.type === 'expense'
-                                    })}>
-                                        {/* @ts-ignore */}
-                                        <Icon name='trending-down' size={24} color={colors[(item.category.color)][500]} />
-                                    </View>
-                                    <View className='flex-1 flex gap-1 items-start'>
-                                        {item.title && <Typography variant="h5" className='text-center text-dark-700'>{item.title}</Typography>}
-                                        <Typography variant="body1" className='font-medium text-center text-dark-700'>{item.description}</Typography>
-                                    </View>
-                                    <View>
-                                        <Typography
-                                            variant='h5'
-                                            currencyType='BRL'
-                                            returnCurrencyFormat
-                                            className={`text-${item.category.type === 'income' ? 'green' : 'red'}-500`}
-                                        >
-                                            {item.value}
-                                        </Typography>
-                                    </View>
+                <View className="flex-1">
+                    {latestTransactions.map((item, index) => (
+                        <Fragment key={index}>
+                            {index > 0 &&
+                                index < latestTransactions.length && (
+                                    <View className='w-full my-4 border border-light-300' />
+                                )}
+                            <View className='flex flex-row items-center justify-between gap-3 rounded-lg py-1'>
+                                <View className={clsx('w-10 h-10 rounded-lg flex items-center justify-center', {
+                                    'bg-green-100': item.category.type === 'income',
+                                    'bg-red-100': item.category.type === 'expense'
+                                })}>
+                                    <Icon name='trending-down' size={24} color={colors[(item.category.color)][500]} />
                                 </View>
-                            </Fragment>
-                        ))}
-                    </View>
+                                <View className='flex-1 flex gap-1 items-start'>
+                                    {item.title && <Typography variant="h5" className='text-center text-dark-700'>{item.title}</Typography>}
+                                    <Typography variant="body1" className='font-medium text-center text-dark-700'>{item.description}</Typography>
+                                </View>
+                                <View>
+                                    <Typography
+                                        variant='h5'
+                                        currencyType='BRL'
+                                        returnCurrencyFormat
+                                        className={`text-${item.category.type === 'income' ? 'green' : 'red'}-500`}
+                                    >
+                                        {item.value}
+                                    </Typography>
+                                </View>
+                            </View>
+                        </Fragment>
+                    ))}
                 </View>
-            </View>
-        </>
+            </View> */}
+        </View>
     )
 }
