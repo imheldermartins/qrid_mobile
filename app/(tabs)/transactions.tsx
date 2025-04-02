@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
 import { Typography } from '@/components/ui/Typography';
 import clsx from 'clsx';
-import { Icon } from '@/components/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { colors } from '@/styles/colors';
 import { Reducer } from '@/types/reducerDefaultTypes';
 import { api } from '@/utils/api';

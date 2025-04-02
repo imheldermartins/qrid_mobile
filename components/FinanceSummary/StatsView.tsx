@@ -1,7 +1,7 @@
 import { colors } from "@/styles/colors"
 import { StyleSheet, View } from "react-native"
 import { Typography } from "../ui/Typography"
-import { Icon, IconProps } from "../Icon"
+import { Icon, IconProps } from "../ui/Icon"
 import { statsView } from "./style"
 
 export const StatsView = ({ title, value, type }: any) => {

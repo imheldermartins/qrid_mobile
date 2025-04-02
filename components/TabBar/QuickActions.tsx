@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Typography } from "../ui/Typography";
-import { Icon } from "../Icon";
+import { Icon } from "../ui/Icon";
 import { Button } from "../ui/Button";
 import { TransactionForm } from "../Forms/TransactionForm";
 import { useBottomSheet } from "@/contexts/ui/BottomSheet";
@@ -74,7 +74,7 @@ export const QuickActions = () => {
                     >
                         <Icon name={icon} from={from} size={24} color={quickActionsStyles[`${type}Label`].color} />
                         <Typography
-                            variant='body2'
+                            variant='body1'
                             style={StyleSheet.flatten([
                                 quickActionsStyles.actionLabel,
                                 quickActionsStyles[`${type}Label`]

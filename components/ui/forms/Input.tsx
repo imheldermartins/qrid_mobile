@@ -1,5 +1,4 @@
 import { REGEX_VALIDATORS } from "@/constants/REGEX_VALIDATORS";
-import clsx from "clsx";
 import React, { forwardRef, useState } from "react";
 import { TextInput as InputType, StyleSheet, TextInputProps, View } from "react-native";
 import { Typography } from "../Typography";
@@ -7,7 +6,7 @@ import { TextInput } from "../defaults/TextInput";
 import { InputProps } from "../defaults/rhf_input.type";
 import { Controller, FieldValues } from "react-hook-form";
 import { colors } from "@/styles/colors";
-import { fontFamilyStyles } from "../Typography/style";
+import { fontFamilyStyles, typographyStyles } from "../Typography/style";
 
 export const Input = forwardRef(function Input<T extends FieldValues>(
     {
@@ -19,7 +18,9 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
         rules,
         value,
         title,
-        f = 'regular',
+        f: family = 'regular',
+        s: size = 'sm',
+        c = 'none',
         ...textInputProps
     }: InputProps<T>,
     ref: React.Ref<InputType>
@@ -38,6 +39,8 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
         },
         text: {},
     } as Record<string, Partial<TextInputProps>>;
+
+    const customStyles = typographyStyles({ size, family, case: c });
 
     return (
         <Controller
@@ -72,7 +75,7 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
                             textInputProps.style,
                             focused ? styles.inputFocused : {},
                             error?.length ? styles.inputError : {},
-                            fontFamilyStyles[f]
+                            customStyles
                         ])}
                         onBlur={() => {
                             setFocused(false);

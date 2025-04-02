@@ -1,6 +1,7 @@
 import { Text, TextProps, StyleSheet } from 'react-native';
 import { CurrencyFormatter, CurrencyType } from './CurrencyFormatter ';
 import { C, F, S, typographyStyles } from "./style";
+import { checkIsHex, colors, STATIC_COLORS, staticPallete } from '@/styles/colors';
 
 type TypoVariant =
     | 'h1'
@@ -23,7 +24,7 @@ type TypographyProps =
         currencyType?: CurrencyType;
         s?: S;
         f?: F;
-        color?: string;
+        color?: STATIC_COLORS | string;
     };
 
 const reactNodeToString = (node: React.ReactNode): string => {
@@ -41,6 +42,7 @@ export const Typography = ({
     ...props
 }: TypographyProps) => {
 
+    color = color !== '' ? (!checkIsHex(String(color)) ? staticPallete[color as STATIC_COLORS] : color) : colors.dark[100];
 
     const variants: Record<TypoVariant, [S, F, C?]> = {
         caption: ['sm', 'light'],
@@ -55,12 +57,6 @@ export const Typography = ({
         h2: ['5xl', 'bold'],
         h1: ['6xl', 'extraBold']
     };
-
-    // const [size, family]: [S, F] =
-    //     (props.f && props.s) ? [props.s, props.f] :
-    //         (!props.f && props.s) ? [props.s, variants[variant][1]] :
-    //             (props.f && !props.s) ? [variants[variant][0], props.f] :
-    //                 variants[variant];
 
     const [variantSize, variantFamily] = variants[variant];
     const size = props.s ?? variantSize;
@@ -83,7 +79,6 @@ export const Typography = ({
             />
         )
     }
-
 
     return (
         <Text

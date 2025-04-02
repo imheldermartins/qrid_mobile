@@ -1,7 +1,7 @@
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { Typography } from "../../ui/Typography";
 import { colors } from "@/styles/colors";
-import { Icon, IconProps } from "@/components/Icon";
+import { Icon, IconProps } from "@/components/ui/Icon";
 import { moreActionsStyles } from "./styles";
 
 /**

@@ -3,7 +3,7 @@ import { Snackbar } from "react-native-paper"
 import { Typography } from "./Typography";
 import { StyleSheet, View } from 'react-native';
 import { colors } from "@/styles/colors";
-import { Icon } from "../Icon";
+import { Icon } from "./Icon";
 
 export const CustomSnackbar = () => {
     const {

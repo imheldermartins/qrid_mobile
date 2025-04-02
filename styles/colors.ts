@@ -2,6 +2,10 @@ import resolveConfig from 'tailwindcss/resolveConfig';
 
 import tailwindConfig from '../tailwind.config';
 
+export type STATIC_COLORS = 'red' | 'blue' | 'green' | 'yellow' | 'pink' | 'purple';
+
+export const checkIsHex = (color: string): boolean => /^#[0-9A-F]{6}$/i.test(color || '');
+
 const fullConfig = resolveConfig(tailwindConfig);
 
 export const colors = {
@@ -30,4 +34,13 @@ export const colors = {
         800: "#272727",
         900: "#202020",
     }
+};
+
+export const staticPallete = {
+    red: colors.red[600],
+    blue: colors.blue[600],
+    green: colors.green[600],
+    yellow: colors.yellow[600],
+    pink: colors.pink[600],
+    purple: colors.purple[600],
 };

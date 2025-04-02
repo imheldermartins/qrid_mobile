@@ -1,18 +1,21 @@
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
-import { Button } from "../../ui/Button";
-import { Input } from "../../ui/forms/Input";
-import RHFControlReturn from "@/utils/RHFControlReturn";
-import API_RESPONSES from "@/types/responses.api.";
-import { useForm } from "react-hook-form";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Typography } from "../../ui/Typography";
-import { Select } from '../../ui/forms/Select';
-import clsx from "clsx";
-import { DateTimePicker } from "../../ui/forms/DateTimePicker";
-import { Category } from "@/types/transactions";
-import { api } from "@/utils/api";
-import { Wallet } from "@/types/wallets";
 import { transactionFormStyles } from "./style";
+
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+
+import { Typography } from "@/components/ui/Typography";
+import { RHFDateTimePicker } from "@/components/ui/forms/RHFDateTimePicker";
+import { RHFSelect } from "@/components/ui/forms/RHFSelect";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/forms/Input";
+
+import RHFControlReturn from "@/utils/RHFControlReturn";
+import { api } from "@/utils/api";
+
+import API_RESPONSES from "@/types/responses.api.";
+import { Category } from "@/types/transactions";
+import { Wallet } from "@/types/wallets";
 
 type TransactionFormData = {
     title?: string;
@@ -95,9 +98,15 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
         }
     }
 
-    const selectOptionsParser = (options: { id: number; name: string; }[]) => {
-        return options.map(option => ({ label: option.name, value: option.id }));
-    };
+    /** TODO: Refactor this function to use a more generic type for the options */
+    const selectOptionsParser = (
+        options: { id: number; name: string; icon?: string; color?: string; }[]
+    ) => options.map(option => ({
+        label: option.name,
+        value: option.id,
+        icon: option.icon || undefined,
+        color: option.color || undefined,
+    }));
 
     useEffect(() => {
         getCategories()
@@ -164,7 +173,7 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                     // required="E-mail é obrigatório."
                     // typeField="currency"
                     />
-                    <Select
+                    <RHFSelect
                         name="payment_method"
                         control={RHFControlReturn(control)}
                         options={[
@@ -175,13 +184,12 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                             { label: 'PayPal', value: 'PAYPAL' },
                             { label: 'PIX', value: 'PIX' },
                             { label: 'Outro', value: 'OTHER' },
-                            { label: 'Outro', value: 'OTHER' }
                         ]}
                         title="Método de Pagamento"
                         placeholder="Selecione um método de pagamento"
                     />
 
-                    <Select
+                    <RHFSelect
                         name="category_id"
                         control={RHFControlReturn(control)}
                         options={categoriesOptions}
@@ -189,7 +197,7 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         placeholder="ex. Serviço, Produto, Aluguel, etc."
                     />
 
-                    <Select
+                    <RHFSelect
                         name="wallet_id"
                         control={RHFControlReturn(control)}
                         options={walletsOptions}
@@ -197,7 +205,7 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
                         placeholder="ex. Carteira, Banco XYZ, etc."
                     />
 
-                    <DateTimePicker
+                    <RHFDateTimePicker
                         name="scheduled_date"
                         control={RHFControlReturn(control)}
                         mode="date"
@@ -206,11 +214,9 @@ export const TransactionForm = ({ type }: TransactionFormProps) => {
 
                     <Button
                         title="Adicionar"
-                        className={clsx("mt-6 !py-4", {
-                            'bg-green-600': type === 'income',
-                            'bg-red-600': type === 'expense',
-                            'bg-blue-600': type === 'transfer',
-                        })}
+                        style={StyleSheet.flatten([
+                            { backgroundColor: transactionFormStyles[`${type}Title`].color }
+                        ])}
                         onPress={handleSubmit(onSubmit)}
                     />
                 </View>

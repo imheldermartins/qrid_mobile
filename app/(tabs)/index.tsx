@@ -5,7 +5,7 @@ import { Fragment, useEffect } from 'react';
 import { HeaderBalance } from '@/components/HeaderBalance';
 import { FinanceSummary } from '@/components/FinanceSummary';
 import { Typography } from '../../components/ui/Typography/index';
-import { Icon } from '../../components/Icon';
+import { Icon } from '../../components/ui/Icon';
 import { colors } from '@/styles/colors';
 import clsx from 'clsx';
 import { styles } from '@/styles/screens/homeStyle';
