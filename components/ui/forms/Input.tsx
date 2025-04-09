@@ -6,7 +6,7 @@ import { TextInput } from "../defaults/TextInput";
 import { InputProps } from "../defaults/rhf_input.type";
 import { Controller, FieldValues } from "react-hook-form";
 import { colors } from "@/styles/colors";
-import { fontFamilyStyles, typographyStyles } from "../Typography/style";
+import { typographyStyles } from "../Typography/style";
 
 export const Input = forwardRef(function Input<T extends FieldValues>(
     {
@@ -21,6 +21,7 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
         f: family = 'regular',
         s: size = 'sm',
         c = 'none',
+        fullWidth,
         ...textInputProps
     }: InputProps<T>,
     ref: React.Ref<InputType>
@@ -59,7 +60,7 @@ export const Input = forwardRef(function Input<T extends FieldValues>(
             }}
             defaultValue={value}
             render={({ field }) => (
-                <View>
+                <View style={!fullWidth ? ({ width: "auto" }) : ({ width: "100%" })}>
                     <Typography s="sm" f="medium" style={styles.label}>
                         {required && "*"}{title || textInputProps.placeholder}
                     </Typography>

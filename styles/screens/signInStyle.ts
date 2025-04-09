@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         gap: 12
     },
-    title: { 
+    title: {
         width: "80%",
         textAlign: "left",
         marginBottom: 60,

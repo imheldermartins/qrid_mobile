@@ -100,6 +100,7 @@ export default function SignUp() {
                     returnKeyType="next"
                     error={errors.first_name?.message}
                     required="Nome é obrigatório."
+                    fullWidth
                 />
                 <Input
                     ref={ref => setRef('last_name', ref!)}
@@ -109,6 +110,7 @@ export default function SignUp() {
                     placeholder="ex. da Silva"
                     onSubmitEditing={() => focusNext('email')}
                     returnKeyType="next"
+                    fullWidth
                 />
                 <Input
                     ref={ref => setRef('email', ref!)}
@@ -121,6 +123,7 @@ export default function SignUp() {
                     error={errors.email?.message}
                     required="E-mail é obrigatório."
                     typeField="email"
+                    fullWidth
                 />
                 <Input
                     ref={ref => setRef('password', ref!)}
@@ -130,6 +133,7 @@ export default function SignUp() {
                     onSubmitEditing={() => focusNext('confirmPassword')}
                     error={errors.password?.message}
                     required="Senha é obrigatória."
+                    fullWidth
                 />
                 <Input
                     ref={ref => setRef('confirmPassword', ref!)}
@@ -142,6 +146,7 @@ export default function SignUp() {
                         validate: value =>
                             value === watch('password') || "As senhas não coincidem."
                     }}
+                    fullWidth
                 />
 
                 <Button

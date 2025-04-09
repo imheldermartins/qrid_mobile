@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Text, View, TextInput } from "react-native";
+import { View, TextInput } from "react-native";
 import { Input } from "@/components/ui/forms/Input";
 import { useForm } from "react-hook-form";
 import { Link, router } from "expo-router";
@@ -83,6 +83,7 @@ export default function SignIn() {
                     error={errors.email?.message}
                     required="E-mail é obrigatório"
                     typeField="email"
+                    fullWidth
                 />
                 <Input
                     ref={passwordRef}
@@ -92,6 +93,7 @@ export default function SignIn() {
                     error={errors.password?.message}
                     required="Senha é obrigatória"
                     typeField="password"
+                    fullWidth
                 />
 
                 <Button title={!isLoading ? "Entrar" : "Carregando..."} style={styles.button} onPress={handleSubmit(onSubmit)} />

@@ -25,6 +25,7 @@ type Props<T extends FieldValues> = {
   f?: F;
   s?: S;
   c?: C;
+  fullWidth?: boolean;
 } & Omit<UseControllerProps<T>, "control" | "name"> &
   TextInputProps;
 
