@@ -2,6 +2,7 @@ import { Text, TextProps, StyleSheet } from 'react-native';
 import { CurrencyFormatter, CurrencyType } from './CurrencyFormatter ';
 import { C, F, S, typographyStyles } from "./style";
 import { checkIsHex, colors, STATIC_COLORS, staticPallete } from '@/styles/colors';
+import clsx from 'clsx';
 
 type TypoVariant =
     | 'h1'
@@ -10,8 +11,10 @@ type TypoVariant =
     | 'h4'
     | 'h5'
     | 'h6'
+    | 'h7'
     | 'body1'
     | 'body2'
+    | 'body3'
     | 'caption'
     | 'button'
     | 'overline';
@@ -24,6 +27,7 @@ type TypographyProps =
         currencyType?: CurrencyType;
         s?: S;
         f?: F;
+        c?: C;
         color?: STATIC_COLORS | string;
     };
 
@@ -47,9 +51,11 @@ export const Typography = ({
     const variants: Record<TypoVariant, [S, F, C?]> = {
         caption: ['sm', 'light'],
         body1: ['base', 'regular'],
-        body2: ['lg', 'medium'],
+        body2: ['sm', 'medium'],
+        body3: ['xs', 'medium'],
         button: ['base', 'bold'],
         overline: ['base', 'medium', 'uppercase'],
+        h7: ['lg', 'bold'],
         h6: ['xl', 'bold'],
         h5: ['2xl', 'bold'],
         h4: ['3xl', 'bold'],
@@ -63,7 +69,7 @@ export const Typography = ({
     const family = props.f ?? variantFamily;
     const [, , textTransform] = variants[variant];
 
-    const sx = { size, family, case: textTransform };
+    const sx = { size, family, case: props?.c || textTransform };
 
     if (returnCurrencyFormat) {
         const value = parseFloat(reactNodeToString(props.children));
@@ -72,10 +78,12 @@ export const Typography = ({
                 value={value}
                 currency={props.currencyType}
                 style={StyleSheet.flatten([
+                    { textAlign: 'left' },
                     props.style,
                     color ? { color } : {},
                     typographyStyles(sx),
                 ]) as {}}
+                className={clsx(className)}
             />
         )
     }
@@ -84,10 +92,12 @@ export const Typography = ({
         <Text
             {...props}
             style={StyleSheet.flatten([
+                { textAlign: 'left' },
                 props.style,
                 typographyStyles(sx),
                 color ? { color } : {},
             ])}
+            className={clsx(className)}
         />
     )
 }

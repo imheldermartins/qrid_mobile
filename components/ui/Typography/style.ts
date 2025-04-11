@@ -14,7 +14,7 @@ export type C =
     | 'capitalize'
     | 'none';
 
-export type S = 
+export type S =
     | 'xs'
     | 'sm'
     | 'base'
@@ -25,7 +25,7 @@ export type S =
     | '4xl'
     | '5xl'
     | '6xl';
-    
+
 type TypoStyles = {
     size: S;
     family: F;
@@ -42,16 +42,16 @@ export const fontFamilyStyles = StyleSheet.create({
 });
 
 export const fontSizeStyles = StyleSheet.create({
-    xs: { fontSize: 12 },
+    xs: { fontSize: 14 },
     sm: { fontSize: 16 },
-    base: { fontSize: 20 },
-    lg: { fontSize: 24 },
-    xl: { fontSize: 28 },
-    '2xl': { fontSize: 32 },
-    '3xl': { fontSize: 36 },
-    '4xl': { fontSize: 42 },
-    '5xl': { fontSize: 46 },
-    '6xl': { fontSize: 50 },
+    base: { fontSize: 18 },
+    lg: { fontSize: 20 },
+    xl: { fontSize: 24 },
+    '2xl': { fontSize: 28 },
+    '3xl': { fontSize: 32 },
+    '4xl': { fontSize: 36 },
+    '5xl': { fontSize: 40 },
+    '6xl': { fontSize: 44 },
 });
 
 export const textTransformStyles = StyleSheet.create({
@@ -61,8 +61,8 @@ export const textTransformStyles = StyleSheet.create({
     none: { textTransform: 'none' },
 });
 
-export const typographyStyles = ({ 
-    size, 
+export const typographyStyles = ({
+    size,
     family,
     case: textTransform = 'none'
 }: TypoStyles) => StyleSheet.flatten([

@@ -1,15 +1,13 @@
 import React, { useReducer, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
-import { Typography } from '@/components/ui/Typography';
-import clsx from 'clsx';
-import { Icon } from '@/components/ui/Icon';
-import { colors } from '@/styles/colors';
 import { Reducer } from '@/types/reducerDefaultTypes';
 import { api } from '@/utils/api';
-import { Transaction } from '@/types/transactions';
+import { TListDate, Transaction, TransactionList } from '@/types/transactions';
+import { transactionListStyle as styles } from '@/styles/screens/transacionsStyle';
+import { ScheduledTransactions } from '@/components/Transactions/ScheduledTransactions';
 
 type TransactionReducer = Reducer<
-    Transaction[],
+    TransactionList,
     Partial<{
         page: number;
         id: number;
@@ -25,14 +23,26 @@ const reducer: TransactionReducer = (state, action) => {
             const newState = action.payload?.set;
 
             if (newState) {
-                return newState;
+                const scheduledTransactions = newState.reduce((acc, transaction) => {
+                    const { scheduled_date: date } = transaction;
+
+                    if (!acc[date]) {
+                        acc[date] = [];
+                    }
+
+                    acc[date].push(transaction);
+
+                    return acc;
+                }, {} as TransactionList);
+
+                return scheduledTransactions as TransactionList;
             }
 
-            return state as Transaction[];
-        case 'ADD':
-            return [...state, action.payload.newItem] as Transaction[];
-        case 'REMOVE':
-            return state.filter(_ => _.id !== action.payload?.id);
+            return state as TransactionList;
+        // case 'ADD':
+        //     return [...state, action.payload.newItem] as Transaction[];
+        // case 'REMOVE':
+        //     return state.filter(_ => _.id !== action.payload?.id);
         //   case 'DESTROY':
         //     return state.filter((_, index) => index < from || index > to);
         default:
@@ -51,7 +61,13 @@ async function getTransactions(): Promise<Transaction[]> {
 // }
 
 export default function TransactionsListScreen() {
-    const [transactions, dispatch] = useReducer<TransactionReducer>(reducer, []);
+    const [transactions, dispatch] = useReducer<TransactionReducer>(reducer, {});
+
+    const filteredTransactions = Object.keys(transactions).sort((a, b) => {
+        const dateA = new Date(a).getTime();
+        const dateB = new Date(b).getTime();
+        return dateB - dateA; // Sort in descending order
+    })
 
     const load = (set: Transaction[]) => {
         dispatch({ type: 'SET', payload: { set } });
@@ -63,40 +79,26 @@ export default function TransactionsListScreen() {
     }, []);
 
     return (
-        <View className="flex-1 flex flex-col justify-end">
+        <View className='flex-1 w-11/12 mx-auto mt-4'>
             <FlatList
-                contentContainerClassName='my-6'
-                data={transactions}
+                contentContainerStyle={styles.flatList}
+                /**
+                 * @todo
+                 * 
+                 * Fix the ObjectKeys to apply or not reorder of the transactions
+                 * 
+                 * For now apply the sort to the transactions list (*most rencently)
+                 */
+                data={filteredTransactions}
                 renderItem={({ item, index }) => {
+                    const key = item as TListDate;
+                    const transactionList: Transaction[] = transactions[key];
                     return (
-                        <React.Fragment key={index}>
-                            {index > 0 &&
-                                index < transactions.length && (
-                                    <View className='w-full my-4 border border-light-300' />
-                                )}
-                            <View className='flex flex-row items-center justify-between gap-3 rounded-lg py-1'>
-                                {/* <View className={clsx('w-10 h-10 rounded-lg flex items-center justify-center', {
-                                    'bg-green-100': item.category.type === 'income',
-                                    'bg-red-100': item.category.type === 'expense'
-                                })}>
-                                    <Icon name='trending-down' size={24} color={colors[(item.category.color)][500]} />
-                                </View> */}
-                                <View className='flex-1 flex gap-1 items-start'>
-                                    {item.title && <Typography variant="h5" className='text-center text-dark-700'>{item.title}</Typography>}
-                                    <Typography variant="body1" className='font-medium text-center text-dark-700'>{item.description}</Typography>
-                                </View>
-                                <View>
-                                    <Typography
-                                        variant='h5'
-                                        currencyType='BRL'
-                                        returnCurrencyFormat
-                                    // className={`text-${item.category.type === 'income' ? 'green' : 'red'}-500`}
-                                    >
-                                        {item.amount}
-                                    </Typography>
-                                </View>
-                            </View>
-                        </React.Fragment>
+                        <ScheduledTransactions
+                            key={index}
+                            dateSection={item as TListDate}
+                            transactions={transactionList}
+                        />
                     )
                 }}
             />

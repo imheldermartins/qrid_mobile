@@ -10,7 +10,7 @@ export const headerStyles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     avatarContainer: {
         display: 'flex',
@@ -40,8 +40,7 @@ export const dashboardStyles = StyleSheet.create({
         backgroundColor: colors.light[100],
     },
     scrollContainer: {
-        paddingHorizontal: 16,
-        paddingVertical: 24
+        paddingBottom: 100
     }
 
 });
@@ -56,7 +55,7 @@ export const moreActionsStyles = StyleSheet.create({
     detached: {
         color: colors.green[500],
     },
-    buttonContainer: { 
+    buttonContainer: {
         flex: 1,
         gap: 8,
         justifyContent: 'center',

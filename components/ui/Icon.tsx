@@ -1,10 +1,12 @@
 import { STATIC_COLORS, staticPallete } from "@/styles/colors";
 import { Feather, Ionicons } from "@expo/vector-icons";
 
+export type IconFrom = 'ionicons' | 'feather';
+
 export interface IconProps {
     name: any;
     size?: number;
-    from?: 'ionicons' | 'feather';
+    from?: IconFrom;
     color?: STATIC_COLORS | string | undefined;
     style?: any;
 }
